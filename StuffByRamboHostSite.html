@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stuff By Rambo</title>
+  <meta name="description" content="Welcome to the digital workshop of Rambo. Featuring Gesture Flow for Mac." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Styles & Theme Variables -->
+  <style>
+    :root {
+      /* Extracted from your 'Gesture Flow' Icon (Electric Cyan) */
+      --primary-color: #00e5ff;
+
+      /* Deep Space Blue Backgrounds matching the icon gradient */
+      --bg-dark: #0b1121;
+      --bg-card: #151e32;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism */
+    .glass-card {
+      background: rgba(21, 30, 50, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 229, 255, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Glow Effects */
+    .glow-text {
+      text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+    }
+
+    .glow-button {
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .glow-button:hover {
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.7);
+      transform: translateY(-2px);
+    }
+
+    /* Utilities */
+    .text-theme {
+      color: var(--primary-color);
+    }
+
+    .bg-theme {
+      background-color: var(--primary-color);
+    }
+
+    .border-theme {
+      border-color: var(--primary-color);
+    }
+
+    /* Floating Animation for the Icon */
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
+  <!-- NAVIGATION -->
+  <nav class="w-full py-6 px-4 md:px-8 border-b border-white/5 glass-card sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-tighter">
+        Stuff By <span class="text-theme glow-text">Rambo</span>
+      </h1>
+      <div class="flex gap-6">
+        <a href="#apps" class="text-sm font-medium text-white hover:text-theme transition-colors">Apps</a>
+        <a href="#web" class="text-sm font-medium text-muted hover:text-theme transition-colors">Web</a>
+        <a href="#footer" class="text-sm font-medium text-muted hover:text-theme transition-colors">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+    <!-- SECTION 1: APPS (Gesture Flow) -->
+    <section id="apps" class="relative py-24 px-4 overflow-hidden">
+      <!-- Ambient Background Glows -->
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-theme rounded-full blur-[180px] opacity-10 pointer-events-none">
+      </div>
+
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10">
+        <!-- Text Content -->
+        <div class="space-y-8 text-center md:text-left order-2 md:order-1">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-xs font-bold text-cyan-400 tracking-wide uppercase">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            macOS Utility
+          </div>
+
+          <h2 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+            Gesture <span class="text-theme glow-text">Flow</span>
+          </h2>
+
+          <p class="text-lg md:text-xl text-slate-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
+            Control your Mac’s volume and brightness without touching a key.
+            Experience the magic of touchless control powered by Apple Vision.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
+            <!-- Download Button (Link to your Gumroad/Download) -->
+            <a href="#"
+              class="glow-button bg-theme text-slate-900 font-bold py-4 px-8 rounded-full text-lg hover:bg-white transition-colors flex items-center justify-center gap-3 group">
+              <span>Download for Mac</span>
+              <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+              </svg>
+            </a>
+            <!-- Info Button -->
+            <a href="#"
+              class="py-4 px-8 rounded-full border border-white/10 hover:bg-white/5 hover:border-theme/50 transition-all font-medium text-slate-300">
+              View Features
+            </a>
+          </div>
+
+          <div class="flex items-center justify-center md:justify-start gap-4 text-xs text-slate-500 font-mono pt-4">
+            <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.98 1.08-3.11-1.06.05-2.31.71-3.06 1.58-.68.78-1.26 2.02-1.11 3.1 1.19.09 2.4-.6 3.09-1.57" />
+              </svg>
+              macOS 12+</span>
+            <span>•</span>
+            <span>Apple Silicon Optimized</span>
+          </div>
+        </div>
+
+        <!-- App Icon Display -->
+        <div class="flex justify-center order-1 md:order-2">
+          <div class="relative group">
+            <div
+              class="absolute inset-0 bg-theme rounded-[2.5rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+            </div>
+            <div
+              class="relative w-64 h-64 md:w-80 md:h-80 glass-card rounded-[2.5rem] flex items-center justify-center animate-float shadow-2xl overflow-hidden p-8 border-theme/20">
+              <!-- IMAGE SOURCE: Using the file you provided -->
+              <img src="assets/1024-mac.png" alt="Gesture Flow Icon"
+                class="w-full h-full object-contain drop-shadow-2xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: WEB PROJECTS (Placeholder Grid) -->
+    <section id="web" class="py-24 px-4 border-t border-white/5 bg-[#0d1326]">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <h3 class="text-3xl font-bold mb-2">Web Projects</h3>
+            <p class="text-slate-400">Other experiments and tools.</p>
+          </div>
+          <!-- Decorative Line -->
+          <div class="hidden md:block flex-grow h-px bg-gradient-to-r from-theme/50 to-transparent ml-8 mb-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Space 1 -->
+          <article class="glass-card p-1 rounded-2xl hover:border-theme/50 transition-all duration-300 group h-full">
+            <div class="bg-[#0f172a] rounded-xl p-6 h-full flex flex-col">
+              <div
+                class="h-40 w-full bg-white/5 rounded-lg mb-6 flex items-center justify-center text-white/10 group-hover:text-theme/50 transition-colors border border-white/5 border-dashed">
+                <span class="text-sm font-mono">Coming Soon</span>
+              </div>
+              <h4 class="text-xl font-bold mb-2 group-hover:text-theme transition-colors">
+                Project Alpha
+              </h4>
+              <p class="text-slate-400 text-sm mb-4 flex-grow">
+                A placeholder for your next big web tool or experimental page.
+              </p>
+              <a href="#"
+                class="text-sm font-bold text-theme hover:text-white inline-flex items-center gap-1 transition-colors">
+                View Project <span>→</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Space 2 -->
+          <article class="glass-card p-1 rounded-2xl hover:border-theme/50 transition-all duration-300 group h-full">
+            <div class="bg-[#0f172a] rounded-xl p-6 h-full flex flex-col">
+              <div
+                class="h-40 w-full bg-white/5 rounded-lg mb-6 flex items-center justify-center text-white/10 group-hover:text-theme/50 transition-colors border border-white/5 border-dashed">
+                <span class="text-sm font-mono">Coming Soon</span>
+              </div>
+              <h4 class="text-xl font-bold mb-2 group-hover:text-theme transition-colors">
+                Project Beta
+              </h4>
+              <p class="text-slate-400 text-sm mb-4 flex-grow">
+                Another space reserved for future cool stuff by Rambo.
+              </p>
+              <span class="text-sm font-bold text-slate-600 cursor-not-allowed">In Development</span>
+            </div>
+          </article>
+
+          <!-- Space 3 (Empty) -->
+          <article class="p-1 rounded-2xl border border-white/5 opacity-50 hover:opacity-100 transition-opacity">
+            <div class="rounded-xl p-6 h-full flex flex-col items-center justify-center text-center min-h-[300px]">
+              <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-4 text-slate-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-slate-300">Reserved</h4>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="py-12 border-t border-white/5 bg-[#0b1121] text-center">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col items-center">
+      <p class="text-slate-500 text-sm mb-4">
+        &copy; 2025 Stuff By Rambo. All rights reserved.
+      </p>
+      <div class="flex gap-4 opacity-50 hover:opacity-100 transition-opacity">
+        <!-- Simple monochromatic social icons -->
+        <a href="#"
+          class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-theme hover:text-black transition-all">
+          <span class="sr-only">Twitter</span>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+            </path>
+          </svg>
+        </a>
+        <a href="#"
+          class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-theme hover:text-black transition-all">
+          <span class="sr-only">GitHub</span>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+            </path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
