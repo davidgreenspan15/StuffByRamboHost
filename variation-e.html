@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stuff By Rambo</title>
+  <meta name="description" content="Apps and tools by Rambo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /*
+      VARIATION E: "TWO-TONE SPLIT"
+      Left panel is fixed dark sidebar with branding + nav.
+      Right panel scrolls with content. Desktop: side-by-side.
+      Mobile: stacks. High contrast, confident layout.
+    */
+    :root { --accent:#10b981; --bg-dark:#0a0a0a; --bg-light:#f5f5f4; --card:#fff; --text-light:#fafafa; --text-dark:#1c1917; --muted-light:#a1a1aa; --muted-dark:#78716c; --border-light:rgba(0,0,0,0.06); --border-dark:rgba(255,255,255,0.07); }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Outfit',system-ui,sans-serif; overflow-x:hidden; margin:0; }
+
+    body::before { content:''; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:0.02;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat; background-size:256px; }
+
+    .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}
+
+    .shimmer { background:linear-gradient(110deg,transparent 33%,rgba(0,0,0,0.01) 50%,transparent 67%); background-size:200% 100%; animation:shimmer 3.5s ease-in-out infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Layout */
+    .layout { display:flex; min-height:100vh; }
+    .sidebar { background:var(--bg-dark); color:var(--text-light); width:320px; position:fixed; top:0; bottom:0; left:0; display:flex; flex-direction:column; justify-content:space-between; padding:40px 32px; z-index:10; }
+    .content-area { background:var(--bg-light); color:var(--text-dark); margin-left:320px; flex:1; min-height:100vh; }
+
+    @media (max-width:768px) {
+      .sidebar { position:relative; width:100%; min-height:auto; padding:32px 24px; }
+      .content-area { margin-left:0; }
+      .layout { flex-direction:column; }
+    }
+
+    /* Cards */
+    .project-card {
+      background:var(--card); border:1px solid var(--border-light); border-radius:20px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.03);
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,0.06); }
+
+    /* Sidebar glow */
+    .sidebar-glow { position:absolute; bottom:0; left:0; right:0; height:300px; pointer-events:none;
+      background:radial-gradient(ellipse at 50% 100%, rgba(16,185,129,0.08), transparent 70%); }
+
+    /* Sidebar nav links */
+    .sidebar-link {
+      display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+      font-size:13px; font-weight:500; color:var(--muted-light); transition:all 0.2s;
+    }
+    .sidebar-link:hover { color:var(--text-light); background:rgba(255,255,255,0.04); }
+    .sidebar-link .dot { width:5px; height:5px; border-radius:50%; background:var(--accent); opacity:0; transition:opacity 0.2s; }
+    .sidebar-link:hover .dot { opacity:1; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+
+    <!-- Fixed Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-glow"></div>
+      <div class="relative">
+        <h1 class="text-2xl font-bold tracking-tight mb-1">Stuff By<br><span style="color:var(--accent)">Rambo</span></h1>
+        <p class="text-xs mb-10" style="color:var(--muted-light)">Apps, tools &amp; experiments</p>
+        <nav class="flex flex-col gap-1">
+          <a href="#gesture-flow" class="sidebar-link"><span class="dot"></span> Gesture Flow</a>
+          <a href="#fantasy" class="sidebar-link"><span class="dot"></span> Fantasy Dashboard</a>
+          <a href="#redtees" class="sidebar-link"><span class="dot"></span> Red Tees</a>
+        </nav>
+      </div>
+      <div class="relative flex items-center gap-3">
+        <a href="https://github.com/davidgreenspan15" target="_blank" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5" style="border:1px solid var(--border-dark); color:var(--muted-light);">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="#" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5" style="border:1px solid var(--border-dark); color:var(--muted-light);">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <span class="ml-auto text-[10px]" style="color:var(--muted-light); opacity:0.5;">&copy; 2026</span>
+      </div>
+    </aside>
+
+    <!-- Scrollable Content -->
+    <main class="content-area">
+      <!-- Gesture Flow -->
+      <section id="gesture-flow" class="px-8 md:px-16 py-16 md:py-24" style="border-bottom:1px solid var(--border-light);">
+        <div class="reveal project-card p-8">
+          <div class="flex items-start gap-5 mb-6">
+            <img src="assets/1024-mac.png" alt="Gesture Flow" class="w-20 h-20 rounded-2xl drop-shadow-lg flex-shrink-0" />
+            <div>
+              <div class="flex items-center gap-2 flex-wrap mb-1">
+                <h2 class="text-2xl font-bold tracking-tight">Gesture Flow</h2>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style="background:rgba(16,185,129,0.08); color:var(--accent); border:1px solid rgba(16,185,129,0.15);">
+                  <span class="w-1 h-1 rounded-full" style="background:var(--accent); animation:pulse 2s infinite;"></span>
+                  Available
+                </span>
+              </div>
+              <p class="text-xs" style="color:var(--muted-dark)">macOS 12+ &middot; Apple Silicon &middot; Free</p>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--muted-dark)">
+            Hands-free Mac control. Adjust volume and brightness with natural hand gestures. Built on Apple Vision — zero setup, instant magic.
+          </p>
+          <div class="flex gap-3">
+            <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md" style="background:var(--accent)">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Download
+            </a>
+            <a href="https://github.com/davidgreenspan15/GestureFlowMacApp#readme"
+               class="inline-flex items-center px-6 py-3 rounded-xl text-sm font-medium transition-all hover:bg-stone-50" style="border:1px solid var(--border-light); color:var(--muted-dark);">
+              Features
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fantasy Dashboard -->
+      <section id="fantasy" class="px-8 md:px-16 py-16 md:py-24" style="border-bottom:1px solid var(--border-light);">
+        <div class="reveal project-card overflow-hidden">
+          <div class="aspect-[21/9] overflow-hidden">
+            <img src="assets/fantasy-dashboard.png" alt="Fantasy Dashboard" class="w-full h-full object-cover opacity-90 hover:opacity-100 hover:scale-[1.01] transition-all duration-500" />
+          </div>
+          <div class="p-8">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <h2 class="text-2xl font-bold tracking-tight mb-2">Fantasy Dashboard</h2>
+                <p class="text-sm leading-relaxed max-w-md" style="color:var(--muted-dark)">
+                  Real-time scores, stats, and standings for NFL, NBA, MLB, and NHL. Everything a fantasy player needs.
+                </p>
+              </div>
+              <a href="https://sports-dashboard.stuffbyrambo.com/home" target="_blank"
+                 class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white whitespace-nowrap transition-all hover:-translate-y-0.5 hover:shadow-md" style="background:var(--accent)">
+                Open
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Red Tees -->
+      <section id="redtees" class="px-8 md:px-16 py-16 md:py-24">
+        <div class="reveal project-card p-8">
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <h2 class="text-2xl font-bold tracking-tight">Red Tees</h2>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style="background:rgba(245,158,11,0.06); color:#d97706; border:1px solid rgba(245,158,11,0.12);">
+                  <span class="w-1 h-1 rounded-full bg-amber-500/60"></span>
+                  Building
+                </span>
+              </div>
+              <p class="text-sm leading-relaxed" style="color:var(--muted-dark)">
+                Automated tee time scheduling. Pick your course, set your time, and your round gets booked before anyone else.
+              </p>
+            </div>
+            <div class="w-20 h-20 rounded-2xl flex-shrink-0 flex items-center justify-center shimmer" style="border:1px dashed var(--border-light);">
+              <span class="text-[8px] font-bold tracking-widest uppercase" style="color:var(--muted-dark); opacity:0.3;">Soon</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stuff By Rambo</title>
+  <meta name="description" content="Apps and tools by Rambo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /*
+      VARIATION C: "HORIZONTAL SCROLL SHOWCASE"
+      Full-viewport sections that scroll horizontally on desktop.
+      Each project is a full panel. Immersive, app-store-like.
+      Falls back to vertical scroll on mobile.
+    */
+    :root { --accent:#e11d48; --bg:#0a0a0a; --card:#141414; --border:rgba(255,255,255,0.06); --muted:#737373; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:#fafafa; font-family:'Sora',system-ui,sans-serif; overflow-x:hidden; }
+
+    body::before { content:''; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:0.02;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat; background-size:256px; }
+
+    .glow { position:fixed; inset:0; z-index:0; pointer-events:none; }
+    .glow div { position:absolute; border-radius:50%; filter:blur(140px); animation:drift 20s ease-in-out infinite alternate; }
+    .glow div:nth-child(1) { width:500px; height:500px; background:var(--accent); top:-15%; left:30%; opacity:0.06; }
+    .glow div:nth-child(2) { width:400px; height:400px; background:#8b5cf6; bottom:5%; right:20%; opacity:0.04; animation-delay:-8s; }
+    @keyframes drift { 0%{transform:translate(0,0)} 100%{transform:translate(25px,-20px)} }
+
+    /* Horizontal scroll container */
+    .hscroll { display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0 24px 24px; scrollbar-width:none; }
+    .hscroll::-webkit-scrollbar { display:none; }
+    .hscroll > .panel { scroll-snap-align:start; flex-shrink:0; width:min(420px, 85vw); }
+
+    .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    .shimmer { background:linear-gradient(110deg,transparent 33%,rgba(255,255,255,0.02) 50%,transparent 67%); background-size:200% 100%; animation:shimmer 3s ease-in-out infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .panel-card {
+      background:var(--card); border:1px solid var(--border); border-radius:24px; height:100%;
+      transition:border-color 0.3s, box-shadow 0.3s;
+    }
+    .panel-card:hover { border-color:rgba(225,29,72,0.15); box-shadow:0 8px 30px rgba(0,0,0,0.3); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div class="glow" aria-hidden="true"><div></div><div></div></div>
+
+  <div class="relative z-10 flex flex-col min-h-screen">
+    <!-- Top bar -->
+    <header class="flex items-center justify-between px-6 py-6">
+      <h1 class="text-sm font-bold tracking-tight">stuff by <span style="color:var(--accent)">Rambo</span></h1>
+      <div class="flex gap-3">
+        <a href="https://github.com/davidgreenspan15" target="_blank" class="text-zinc-600 hover:text-rose-400 transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="#" class="text-zinc-600 hover:text-rose-400 transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow flex flex-col justify-center py-8">
+      <!-- Section label -->
+      <div class="reveal px-6 mb-6">
+        <h2 class="text-2xl md:text-4xl font-bold tracking-tight">What I've Built</h2>
+        <p class="text-sm mt-1" style="color:var(--muted)">Swipe to explore &rarr;</p>
+      </div>
+
+      <!-- Horizontal scroll panels -->
+      <div class="hscroll">
+        <!-- Panel 1: Gesture Flow -->
+        <div class="panel reveal">
+          <div class="panel-card p-7 flex flex-col">
+            <div class="flex items-center gap-3 mb-5">
+              <img src="assets/1024-mac.png" alt="Gesture Flow" class="w-12 h-12 rounded-xl drop-shadow-lg" />
+              <div>
+                <h3 class="text-base font-bold">Gesture Flow</h3>
+                <span class="text-[10px] font-semibold uppercase tracking-wider" style="color:var(--muted)">macOS App</span>
+              </div>
+              <span class="ml-auto inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style="background:rgba(225,29,72,0.08); color:var(--accent); border:1px solid rgba(225,29,72,0.15);">
+                <span class="w-1 h-1 rounded-full" style="background:var(--accent); animation:pulse 2s infinite;"></span>
+                Live
+              </span>
+            </div>
+            <p class="text-sm leading-relaxed flex-grow mb-6" style="color:var(--muted)">
+              Control volume and brightness using hand gestures. Powered by Apple Vision — no setup required. Works on macOS 12+ with Apple Silicon.
+            </p>
+            <div class="flex gap-2.5 mt-auto">
+              <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
+                 class="flex-1 text-center py-3 rounded-xl text-sm font-semibold text-white transition-all hover:shadow-[0_0_20px_rgba(225,29,72,0.25)]" style="background:var(--accent)">
+                Download
+              </a>
+              <a href="https://github.com/davidgreenspan15/GestureFlowMacApp#readme"
+                 class="py-3 px-5 rounded-xl text-sm font-medium transition-all" style="border:1px solid var(--border); color:var(--muted);">
+                Docs
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Fantasy Dashboard -->
+        <div class="panel reveal" style="transition-delay:0.08s">
+          <div class="panel-card overflow-hidden flex flex-col">
+            <div class="aspect-video overflow-hidden">
+              <img src="assets/fantasy-dashboard.png" alt="Fantasy Dashboard" class="w-full h-full object-cover opacity-85 hover:opacity-100 hover:scale-[1.02] transition-all duration-500" />
+            </div>
+            <div class="p-7 flex flex-col flex-grow">
+              <h3 class="text-base font-bold mb-1">Fantasy Dashboard</h3>
+              <p class="text-sm leading-relaxed flex-grow mb-5" style="color:var(--muted)">
+                Real-time stats, live scores, and standings across all four major sports. Built for fantasy players who want an edge.
+              </p>
+              <a href="https://sports-dashboard.stuffbyrambo.com/home" target="_blank"
+                 class="w-full text-center py-3 rounded-xl text-sm font-semibold text-white transition-all hover:shadow-[0_0_20px_rgba(225,29,72,0.25)]" style="background:var(--accent)">
+                Open Dashboard
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Red Tees -->
+        <div class="panel reveal" style="transition-delay:0.16s">
+          <div class="panel-card p-7 flex flex-col">
+            <div class="rounded-xl h-32 mb-5 flex items-center justify-center shimmer" style="border:1px dashed var(--border);">
+              <span class="text-zinc-700 text-[10px] font-semibold tracking-widest uppercase">Coming Soon</span>
+            </div>
+            <h3 class="text-base font-bold mb-1">Red Tees</h3>
+            <p class="text-sm leading-relaxed flex-grow mb-5" style="color:var(--muted)">
+              Automated tee time scheduling. Set your preferences once, and your rounds get booked before anyone else.
+            </p>
+            <div class="mt-auto">
+              <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg" style="color:var(--muted); background:rgba(255,255,255,0.03); border:1px solid var(--border);">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/60"></span> In Development
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: More coming -->
+        <div class="panel reveal" style="transition-delay:0.24s">
+          <div class="flex items-center justify-center h-full rounded-3xl opacity-30" style="border:1px dashed rgba(255,255,255,0.06);">
+            <div class="text-center">
+              <svg class="w-5 h-5 mx-auto mb-2 text-zinc-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              <span class="text-zinc-600 text-xs font-medium">More coming</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-6 py-6 text-center">
+      <span class="text-[10px]" style="color:var(--muted)">&copy; 2026 Stuff By Rambo</span>
+    </footer>
+  </div>
+
+  <script>
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.05});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>

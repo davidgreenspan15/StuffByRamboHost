@@ -1,286 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stuff By Rambo</title>
   <meta name="description" content="Welcome to the digital workshop of Rambo. Featuring Gesture Flow for Mac." />
-
-  <!-- Tailwind CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Custom Styles & Theme Variables -->
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans:['Inter','system-ui','sans-serif'], display:['Outfit','system-ui','sans-serif'] } } } }
+  </script>
   <style>
+    /*
+      VARIATION 4: "GLASS LAYERS"
+      Heavy glassmorphism, layered frosted panels, purple/blue palette,
+      depth-heavy with overlapping elements.
+    */
     :root {
-      /* Extracted from your 'Gesture Flow' Icon (Electric Cyan) */
-      --primary-color: #00e5ff;
+      --accent: #818cf8;
+      --accent2: #06b6d4;
+      --bg: #020617;
+      --card: rgba(15,23,42,0.6);
+      --glass: rgba(15,23,42,0.4);
+      --border: rgba(255,255,255,0.06);
+      --border-h: rgba(129,140,248,0.25);
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:#f1f5f9; font-family:'Inter',system-ui,sans-serif; overflow-x:hidden; }
 
-      /* Deep Space Blue Backgrounds matching the icon gradient */
-      --bg-dark: #0b1121;
-      --bg-card: #151e32;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+    /* Grain */
+    body::before { content:''; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:0.025;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat; background-size:256px; }
+
+    /* Rich aurora */
+    .aurora { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .aurora-blob { position:absolute; border-radius:50%; filter:blur(140px); animation:drift 22s ease-in-out infinite alternate; }
+    .aurora-blob:nth-child(1) { width:700px; height:700px; background:var(--accent); top:-20%; left:10%; opacity:0.10; }
+    .aurora-blob:nth-child(2) { width:500px; height:500px; background:var(--accent2); bottom:0%; right:5%; opacity:0.08; animation-delay:-8s; }
+    .aurora-blob:nth-child(3) { width:400px; height:400px; background:#f472b6; top:50%; left:60%; opacity:0.05; animation-delay:-14s; animation-duration:25s; }
+    @keyframes drift { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-25px) scale(1.05)} 66%{transform:translate(-20px,15px) scale(0.95)} 100%{transform:translate(10px,-10px) scale(1.02)} }
+
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}
+
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-16px) rotate(2deg)} }
+    .float { animation:float 7s ease-in-out infinite; }
+
+    .shimmer { background:linear-gradient(110deg,transparent 33%,rgba(255,255,255,0.02) 50%,transparent 67%); background-size:200% 100%; animation:shimmer 3s ease-in-out infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* Glass panels */
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border); border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* Glassmorphism */
     .glass-card {
-      background: rgba(21, 30, 50, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 229, 255, 0.1);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      background: var(--glass);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 20px;
+      transition: border-color 0.3s, transform 0.4s, box-shadow 0.4s;
+      position: relative; overflow: hidden;
+    }
+    .glass-card::before {
+      content:''; position:absolute; inset:0; border-radius:20px; opacity:0; transition:opacity 0.4s; pointer-events:none;
+      background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(129,140,248,0.06), transparent 40%);
+    }
+    .glass-card:hover::before { opacity:1; }
+    .glass-card:hover { border-color:var(--border-h); transform:translateY(-3px); box-shadow:0 16px 50px rgba(0,0,0,0.3), 0 0 40px rgba(129,140,248,0.05); }
+
+    /* Floating ring decorations */
+    .ring-deco {
+      position:absolute; border-radius:50%; border:1px solid rgba(129,140,248,0.08);
+      pointer-events:none; animation:ring-spin 30s linear infinite;
+    }
+    @keyframes ring-spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+    .nav { background:rgba(2,6,23,0.6); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
+
+    /* Gradient text */
+    .grad-text {
+      background:linear-gradient(135deg, #818cf8, #06b6d4);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
 
-    /* Glow Effects */
-    .glow-text {
-      text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
-    }
-
-    .glow-button {
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-      transition: all 0.3s ease;
-    }
-
-    .glow-button:hover {
-      box-shadow: 0 0 35px rgba(0, 229, 255, 0.7);
-      transform: translateY(-2px);
-    }
-
-    /* Utilities */
-    .text-theme {
-      color: var(--primary-color);
-    }
-
-    .bg-theme {
-      background-color: var(--primary-color);
-    }
-
-    .border-theme {
-      border-color: var(--primary-color);
-    }
-
-    /* Floating Animation for the Icon */
-    @keyframes float {
-      0% {
-        transform: translateY(0px);
-      }
-
-      50% {
-        transform: translateY(-12px);
-      }
-
-      100% {
-        transform: translateY(0px);
-      }
-    }
-
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
   </style>
 </head>
+<body class="antialiased min-h-screen flex flex-col">
+  <div class="aurora" aria-hidden="true"><div class="aurora-blob"></div><div class="aurora-blob"></div><div class="aurora-blob"></div></div>
 
-<body class="antialiased min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
-  <!-- NAVIGATION -->
-  <nav class="w-full py-6 px-4 md:px-8 border-b border-white/5 glass-card sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold tracking-tighter">
-        Stuff By <span class="text-theme glow-text">Rambo</span>
-      </h1>
-      <div class="flex gap-6">
-        <a href="#apps" class="text-sm font-medium text-white hover:text-theme transition-colors">Apps</a>
-        <a href="#web" class="text-sm font-medium text-muted hover:text-theme transition-colors">Web</a>
-        <a href="#footer" class="text-sm font-medium text-muted hover:text-theme transition-colors">Contact</a>
+  <nav class="nav sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+      <a href="#" class="font-display text-lg font-bold tracking-tight">stuff by <span class="grad-text">Rambo</span></a>
+      <div class="flex gap-7">
+        <a href="#apps" class="text-xs font-medium text-slate-500 hover:text-white transition-colors">Apps</a>
+        <a href="#projects" class="text-xs font-medium text-slate-500 hover:text-white transition-colors">Projects</a>
+        <a href="#footer" class="text-xs font-medium text-slate-500 hover:text-white transition-colors">Contact</a>
       </div>
     </div>
   </nav>
 
-  <!-- MAIN CONTENT -->
-  <main class="flex-grow">
-    <!-- SECTION 1: APPS (Gesture Flow) -->
-    <section id="apps" class="relative py-24 px-4 overflow-hidden">
-      <!-- Ambient Background Glows -->
-      <div
-        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-theme rounded-full blur-[180px] opacity-10 pointer-events-none">
-      </div>
+  <main class="flex-grow relative z-10">
+    <!-- Hero -->
+    <section id="apps" class="relative py-28 md:py-40 px-6">
+      <!-- Decorative rings -->
+      <div class="ring-deco w-[500px] h-[500px] -top-20 -right-20 hidden md:block" style="opacity:0.4"></div>
+      <div class="ring-deco w-[300px] h-[300px] bottom-10 -left-10 hidden md:block" style="animation-direction:reverse; opacity:0.3"></div>
 
-      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10">
-        <!-- Text Content -->
-        <div class="space-y-8 text-center md:text-left order-2 md:order-1">
-          <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-xs font-bold text-cyan-400 tracking-wide uppercase">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-            macOS Utility
-          </div>
-
-          <h2 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
-            Gesture <span class="text-theme glow-text">Flow</span>
-          </h2>
-
-          <p class="text-lg md:text-xl text-slate-400 max-w-lg mx-auto md:mx-0 leading-relaxed">
-            Control your Mac’s volume and brightness without touching a key.
-            Experience the magic of touchless control powered by Apple Vision.
-          </p>
-
-          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
-            <!-- Download Button (Link to your Gumroad/Download) -->
-            <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
-              class="glow-button bg-theme text-slate-900 font-bold py-4 px-8 rounded-full text-lg hover:bg-white transition-colors flex items-center justify-center gap-3 group">
-              <span>Download for Mac</span>
-              <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-              </svg>
-            </a>
-            <!-- Info Button -->
-            <a href="https://github.com/davidgreenspan15/GestureFlowMacApp#readme"
-              class="py-4 px-8 rounded-full border border-white/10 hover:bg-white/5 hover:border-theme/50 transition-all font-medium text-slate-300">
-              View Features
-            </a>
-          </div>
-
-          <div class="flex items-center justify-center md:justify-start gap-4 text-xs text-slate-500 font-mono pt-4">
-            <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.98 1.08-3.11-1.06.05-2.31.71-3.06 1.58-.68.78-1.26 2.02-1.11 3.1 1.19.09 2.4-.6 3.09-1.57" />
-              </svg>
-              macOS 12+</span>
-            <span>•</span>
-            <span>Apple Silicon Optimized</span>
-          </div>
-        </div>
-
-        <!-- App Icon Display -->
-        <div class="flex justify-center order-1 md:order-2">
-          <div class="relative group">
-            <div
-              class="absolute inset-0 bg-theme rounded-[2.5rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+      <div class="max-w-6xl mx-auto">
+        <div class="glass p-8 md:p-14">
+          <div class="grid md:grid-cols-2 gap-14 items-center">
+            <div class="space-y-7 text-center md:text-left order-2 md:order-1">
+              <div class="reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wider uppercase" style="border:1px solid rgba(129,140,248,0.2); background:rgba(129,140,248,0.06); color:var(--accent);">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent); animation:pulse 2s infinite;"></span>
+                macOS Utility
+              </div>
+              <h1 class="reveal rd1 font-display text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
+                Gesture<br><span class="grad-text">Flow</span>
+              </h1>
+              <p class="reveal rd2 text-slate-400 text-base md:text-lg max-w-md mx-auto md:mx-0 leading-relaxed">
+                Control your Mac's volume and brightness without touching a key. Touchless control powered by Apple Vision.
+              </p>
+              <div class="reveal rd3 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
+                   class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(129,140,248,0.3)]" style="background:linear-gradient(135deg,#818cf8,#06b6d4)">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  Download for Mac
+                </a>
+                <a href="https://github.com/davidgreenspan15/GestureFlowMacApp#readme"
+                   class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-medium text-sm text-slate-400 hover:text-white transition-all" style="border:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                  View Features
+                </a>
+              </div>
+              <div class="reveal rd4 flex items-center justify-center md:justify-start gap-3 text-[11px] text-slate-600 pt-2 font-display">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.98 1.08-3.11-1.06.05-2.31.71-3.06 1.58-.68.78-1.26 2.02-1.11 3.1 1.19.09 2.4-.6 3.09-1.57"/></svg>
+                macOS 12+ <span class="text-slate-700">|</span> Apple Silicon
+              </div>
             </div>
-            <div
-              class="relative w-64 h-64 md:w-80 md:h-80 glass-card rounded-[2.5rem] flex items-center justify-center animate-float shadow-2xl overflow-hidden p-8 border-theme/20">
-              <!-- IMAGE SOURCE: Using the file you provided -->
-              <img src="assets/1024-mac.png" alt="Gesture Flow Icon"
-                class="w-full h-full object-contain drop-shadow-2xl" />
+            <!-- Icon -->
+            <div class="flex justify-center order-1 md:order-2 reveal">
+              <div class="relative">
+                <div class="absolute inset-[-24px] rounded-[36px] opacity-20" style="background:radial-gradient(circle, rgba(129,140,248,0.3), transparent 70%);"></div>
+                <div class="relative w-52 h-52 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-[28px] overflow-hidden float glass" style="padding:0; box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+                  <img src="assets/1024-mac.png" alt="Gesture Flow" class="w-full h-full object-contain p-5" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: WEB PROJECTS -->
-    <section id="web" class="py-24 px-4 border-t border-white/5 bg-[#0d1326]">
+    <!-- Projects -->
+    <section id="projects" class="py-24 md:py-32 px-6">
       <div class="max-w-6xl mx-auto">
-        <div class="flex items-end justify-between mb-12">
-          <div>
-            <h3 class="text-3xl font-bold mb-2">Web Projects</h3>
-            <p class="text-slate-400">Other experiments and tools.</p>
-          </div>
-          <!-- Decorative Line -->
-          <div class="hidden md:block flex-grow h-px bg-gradient-to-r from-theme/50 to-transparent ml-8 mb-4"></div>
+        <div class="reveal mb-14">
+          <span class="text-[11px] font-semibold tracking-[0.15em] uppercase text-slate-600 font-display">Projects</span>
+          <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight mt-3">Web &amp; Tools</h2>
+          <p class="text-slate-500 mt-2 text-sm">Experiments, dashboards, and utilities.</p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          <!-- Card 1: Fantasy Dashboard -->
-          <article class="glass-card p-1 rounded-2xl hover:border-theme/50 transition-all duration-300 group h-full">
-            <div class="bg-[#0f172a] rounded-xl p-6 h-full flex flex-col">
-              <div class="h-40 w-full bg-black/20 rounded-lg mb-6 overflow-hidden border border-white/5 relative">
-                <!-- Image for Fantasy Dashboard -->
-                <img src="assets/fantasy-dashboard.png" alt="Fantasy Dashboard"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
-              </div>
-              <h4 class="text-xl font-bold mb-2 group-hover:text-theme transition-colors">
-                Fantasy Dashboard
-              </h4>
-              <p class="text-slate-400 text-sm mb-4 flex-grow leading-relaxed">
-                Aggregate real-time major sports stats to give you the edge in fantasy sports. Features live scores,
-                stats, standings, and tools. API available.
-              </p>
-              <a href="https://sports-dashboard.stuffbyrambo.com/home" target="_blank"
-                class="text-sm font-bold text-theme hover:text-white inline-flex items-center gap-1 transition-colors mt-auto">
-                Visit Dashboard <span>→</span>
-              </a>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Fantasy Dashboard -->
+          <div class="reveal glass-card p-6 flex flex-col">
+            <div class="rounded-xl overflow-hidden mb-5 aspect-video" style="border:1px solid var(--border); background:rgba(255,255,255,0.02);">
+              <img src="assets/fantasy-dashboard.png" alt="Fantasy Dashboard" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-[1.03] transition-all duration-500" />
             </div>
-          </article>
-
-          <!-- Card 2: Red Tees -->
-          <article class="glass-card p-1 rounded-2xl hover:border-theme/50 transition-all duration-300 group h-full">
-            <div class="bg-[#0f172a] rounded-xl p-6 h-full flex flex-col">
-              <div
-                class="h-40 w-full bg-white/5 rounded-lg mb-6 flex items-center justify-center text-white/20 group-hover:text-theme transition-colors border border-white/5 border-dashed">
-                <!-- Golf Flag Icon -->
-                <span class="text-sm font-mono">Coming Soon</span>
-              </div>
-              <h4 class="text-xl font-bold mb-2 group-hover:text-theme transition-colors">
-                Red Tees
-              </h4>
-              <p class="text-slate-400 text-sm mb-4 flex-grow leading-relaxed">
-                Play from the red tees when booking your tee time. Automated scheduling system to help you book tee
-                times in advance automatically.
-              </p>
-              <div class="mt-auto flex items-center justify-between">
-                <span
-                  class="text-sm font-bold text-slate-600 cursor-not-allowed uppercase tracking-wider text-[10px]">In
-                  Development</span>
-              </div>
+            <h3 class="font-display text-base font-semibold mb-1.5">Fantasy Dashboard</h3>
+            <p class="text-slate-500 text-sm leading-relaxed flex-grow mb-4">Real-time sports stats, live scores, standings, and fantasy tools.</p>
+            <a href="https://sports-dashboard.stuffbyrambo.com/home" target="_blank" class="text-xs font-semibold inline-flex items-center gap-1.5 hover:gap-3 transition-all" style="color:var(--accent)">
+              Visit Dashboard <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+            </a>
+          </div>
+          <!-- Red Tees -->
+          <div class="reveal rd1 glass-card p-6 flex flex-col">
+            <div class="rounded-xl mb-5 aspect-video flex items-center justify-center shimmer" style="border:1px dashed var(--border);">
+              <span class="text-slate-700 text-[10px] font-medium tracking-widest uppercase">Coming Soon</span>
             </div>
-          </article>
-
-          <!-- Card 3: Reserved (Empty) -->
-          <article class="p-1 rounded-2xl border border-white/5 opacity-50 hover:opacity-100 transition-opacity">
-            <div class="rounded-xl p-6 h-full flex flex-col items-center justify-center text-center min-h-[300px]">
-              <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-4 text-slate-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-              </div>
-              <h4 class="text-lg font-bold text-slate-300">Reserved</h4>
+            <h3 class="font-display text-base font-semibold mb-1.5">Red Tees</h3>
+            <p class="text-slate-500 text-sm leading-relaxed flex-grow mb-4">Automated tee time scheduling — book rounds in advance.</p>
+            <span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-600 px-2.5 py-1.5 rounded-lg" style="background:rgba(255,255,255,0.03); border:1px solid var(--border);">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500/60"></span> In Development
+            </span>
+          </div>
+          <!-- Reserved -->
+          <div class="reveal rd2 rounded-3xl flex flex-col items-center justify-center text-center min-h-[260px] opacity-35 hover:opacity-65 transition-opacity" style="border:1px dashed rgba(255,255,255,0.05);">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2.5" style="background:rgba(255,255,255,0.03); border:1px solid var(--border);">
+              <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             </div>
-          </article>
+            <span class="text-slate-600 text-xs font-medium font-display">Reserved</span>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer id="footer" class="py-12 border-t border-white/5 bg-[#0b1121] text-center">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col items-center">
-      <p class="text-slate-500 text-sm mb-4">
-        &copy; 2025 Stuff By Rambo. All rights reserved.
-      </p>
-      <div class="flex gap-4 opacity-50 hover:opacity-100 transition-opacity">
-        <!-- Simple monochromatic social icons -->
-        <a href="#"
-          class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-theme hover:text-black transition-all">
-          <span class="sr-only">Twitter</span>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-            </path>
-          </svg>
+  <footer id="footer" class="relative z-10 py-12 px-6" style="border-top:1px solid var(--border)">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <span class="font-display text-xs text-slate-600">stuff by Rambo &copy; 2026</span>
+      <div class="flex gap-2.5">
+        <a href="#" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-600 hover:text-indigo-400 transition-colors" style="border:1px solid var(--border); background:rgba(255,255,255,0.02);" aria-label="X">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="https://github.com/davidgreenspan15" target="_blank"
-          class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-theme hover:text-black transition-all">
-          <span class="sr-only">GitHub</span>
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-            </path>
-          </svg>
+        <a href="https://github.com/davidgreenspan15" target="_blank" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-600 hover:text-indigo-400 transition-colors" style="border:1px solid var(--border); background:rgba(255,255,255,0.02);" aria-label="GitHub">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         </a>
       </div>
     </div>
   </footer>
-</body>
 
+  <script>
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    document.querySelectorAll('.glass-card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',`${e.clientX-r.left}px`);c.style.setProperty('--my',`${e.clientY-r.top}px`);}));
+  </script>
+</body>
 </html>

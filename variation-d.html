@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stuff By Rambo</title>
+  <meta name="description" content="Apps and tools by Rambo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /*
+      VARIATION D: "FULL-BLEED MAGAZINE"
+      Each project takes a full viewport-height section.
+      Scroll down to reveal each project like a magazine spread.
+      Big type, full-bleed imagery, dramatic pacing.
+    */
+    :root { --accent:#3b82f6; --bg:#fafafa; --text:#0f172a; --muted:#64748b; --border:rgba(0,0,0,0.06); }
+    html, body { margin:0; padding:0; height:100%; overflow:hidden; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; }
+    .snap-container { height:100vh; overflow-y:scroll; scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+
+    .display { font-family:'Space Grotesk',system-ui,sans-serif; }
+
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}
+
+    .shimmer { background:linear-gradient(110deg,transparent 33%,rgba(0,0,0,0.01) 50%,transparent 67%); background-size:200% 100%; animation:shimmer 3.5s ease-in-out infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Full section */
+    .spread { height:100vh; display:flex; align-items:center; position:relative; scroll-snap-align:start; scroll-snap-stop:always; }
+    .spread + .spread { border-top:1px solid var(--border); }
+
+    /* Number label */
+    .num { font-family:'Space Grotesk',monospace; font-size:120px; font-weight:700; color:rgba(0,0,0,0.03); position:absolute; top:20px; right:30px; line-height:1; user-select:none; pointer-events:none; }
+
+    /* Sticky nav dot indicators */
+    .dot-nav { position:fixed; right:20px; top:50%; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:10px; }
+    .dot-nav a { width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,0.1); transition:all 0.3s; }
+    .dot-nav a.active { background:var(--accent); transform:scale(1.3); }
+    .dot-nav a:hover { background:var(--accent); }
+  </style>
+</head>
+<body>
+<div class="snap-container">
+
+  <!-- Dot navigation -->
+  <nav class="dot-nav hidden md:flex" aria-label="Page sections">
+    <a href="#intro" class="active" data-section="intro"></a>
+    <a href="#gesture-flow" data-section="gesture-flow"></a>
+    <a href="#fantasy" data-section="fantasy"></a>
+    <a href="#redtees" data-section="redtees"></a>
+  </nav>
+
+  <!-- Section 1: Intro -->
+  <section id="intro" class="spread px-6" data-section="intro">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="reveal text-sm font-medium tracking-wider uppercase mb-4" style="color:var(--muted)">Portfolio &middot; 2026</p>
+      <h1 class="reveal rd1 display text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9] mb-6">
+        Stuff<br>By <span style="color:var(--accent)">Rambo</span>
+      </h1>
+      <p class="reveal rd2 text-base md:text-lg max-w-md mx-auto leading-relaxed" style="color:var(--muted)">
+        A collection of apps, dashboards, and tools I'm building and shipping.
+      </p>
+      <div class="reveal rd3 flex justify-center gap-4 mt-8">
+        <a href="https://github.com/davidgreenspan15" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-blue-50" style="border:1px solid var(--border); color:var(--muted);">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-blue-50" style="border:1px solid var(--border); color:var(--muted);">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+      <div class="reveal rd3 mt-16 animate-bounce">
+        <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--muted); opacity:0.4"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Gesture Flow -->
+  <section id="gesture-flow" class="spread px-6" data-section="gesture-flow">
+    <span class="num">01</span>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div class="reveal">
+        <img src="assets/1024-mac.png" alt="Gesture Flow" class="w-48 h-48 md:w-64 md:h-64 mx-auto drop-shadow-2xl" />
+      </div>
+      <div>
+        <div class="reveal inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-5" style="background:rgba(59,130,246,0.06); color:var(--accent); border:1px solid rgba(59,130,246,0.12);">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent); animation:pulse 2s infinite;"></span>
+          macOS &middot; Free &middot; Apple Silicon
+        </div>
+        <h2 class="reveal rd1 display text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-4">
+          Gesture<br>Flow
+        </h2>
+        <p class="reveal rd2 text-sm md:text-base leading-relaxed mb-6" style="color:var(--muted)">
+          Wave your hand to adjust volume and brightness. Built on Apple Vision — it just works. No config, no keyboard, no friction.
+        </p>
+        <div class="reveal rd3 flex gap-3">
+          <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
+             class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style="background:var(--accent)">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download
+          </a>
+          <a href="https://github.com/davidgreenspan15/GestureFlowMacApp#readme"
+             class="inline-flex items-center px-6 py-3 rounded-xl text-sm font-medium transition-all hover:bg-slate-100" style="border:1px solid var(--border); color:var(--muted);">
+            Features
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Fantasy Dashboard -->
+  <section id="fantasy" class="spread px-6" data-section="fantasy">
+    <span class="num">02</span>
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal rounded-3xl overflow-hidden mb-8" style="border:1px solid var(--border); box-shadow:0 4px 20px rgba(0,0,0,0.04);">
+        <img src="assets/fantasy-dashboard.png" alt="Fantasy Dashboard" class="w-full aspect-[21/9] object-cover" />
+      </div>
+      <div class="reveal rd1 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <h2 class="display text-4xl md:text-5xl font-bold tracking-tight mb-2">Fantasy Dashboard</h2>
+          <p class="text-sm md:text-base max-w-lg leading-relaxed" style="color:var(--muted)">
+            Live scores, athlete stats, depth charts, and standings across NFL, NBA, MLB, and NHL. Everything a fantasy player needs in one place.
+          </p>
+        </div>
+        <a href="https://sports-dashboard.stuffbyrambo.com/home" target="_blank"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white whitespace-nowrap transition-all hover:-translate-y-0.5 hover:shadow-lg" style="background:var(--accent)">
+          Open Dashboard
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Red Tees -->
+  <section id="redtees" class="spread px-6" data-section="redtees">
+    <span class="num">03</span>
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="reveal inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-6" style="background:rgba(245,158,11,0.06); color:#d97706; border:1px solid rgba(245,158,11,0.12);">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500/60"></span> In Development
+      </div>
+      <h2 class="reveal rd1 display text-4xl md:text-6xl font-bold tracking-tight mb-4">Red Tees</h2>
+      <p class="reveal rd2 text-sm md:text-base max-w-md mx-auto leading-relaxed mb-8" style="color:var(--muted)">
+        Automated tee time bookings. Set your preferences once — course, time, day — and your round gets reserved automatically before slots fill up.
+      </p>
+      <div class="reveal rd3 rounded-2xl h-32 max-w-sm mx-auto flex items-center justify-center shimmer" style="border:1px dashed var(--border);">
+        <span class="text-[10px] font-semibold tracking-widest uppercase" style="color:var(--muted); opacity:0.3;">Coming Soon</span>
+      </div>
+      <div class="reveal rd3 mt-16">
+        <span class="text-[10px]" style="color:var(--muted)">&copy; 2026 Stuff By Rambo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (inside last section) -->
+
+</div><!-- end snap-container -->
+
+  <script>
+    const container=document.querySelector('.snap-container');
+
+    // Reveal
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,root:container});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // Dot nav active state
+    const dots=document.querySelectorAll('.dot-nav a');
+    const sections=document.querySelectorAll('[data-section]');
+    const secObs=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting){
+          dots.forEach(d=>d.classList.remove('active'));
+          const active=document.querySelector(`.dot-nav a[data-section="${e.target.dataset.section}"]`);
+          if(active) active.classList.add('active');
+        }
+      });
+    },{threshold:0.4,root:container});
+    sections.forEach(s=>secObs.observe(s));
+
+    // Dot nav click: scroll within container
+    dots.forEach(d=>d.addEventListener('click',e=>{
+      e.preventDefault();
+      const target=document.querySelector(d.getAttribute('href'));
+      if(target) target.scrollIntoView({behavior:'smooth'});
+    }));
+  </script>
+</body>
+</html>
