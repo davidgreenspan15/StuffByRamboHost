@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Tees — Privacy Policy</title>
+  <meta name="description" content="Privacy policy for the Red Tees mobile app." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            bg: { deep: '#0a0303', mid: '#1a0606', warm: '#2a0a0a' },
+            accent: { DEFAULT: '#fb575d', bright: '#ff6b6f', dim: '#c5353e' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      background: radial-gradient(ellipse at 30% 0%, #4a0d10 0%, #1a0606 45%, #0a0303 90%);
+      min-height: 100vh;
+    }
+    a { color: #ff6b6f; }
+    a:hover { text-decoration: underline; }
+    h1, h2 { letter-spacing: -0.02em; }
+    .prose p { line-height: 1.7; margin-bottom: 1rem; }
+    .prose ul { margin: 0.5rem 0 1.25rem 1.5rem; list-style: disc; }
+    .prose li { margin-bottom: 0.4rem; line-height: 1.65; }
+  </style>
+</head>
+<body class="font-sans text-white antialiased">
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <a href="/" class="text-sm text-white/60 hover:text-white">← stuffbyrambo.com</a>
+
+    <header class="mt-10 mb-12">
+      <div class="inline-flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center"
+             style="background: linear-gradient(180deg,#ff6b6f,#c5353e); box-shadow: 0 0 0 1px rgba(251,87,93,0.4), 0 8px 24px rgba(197,53,62,0.45);">
+          <span class="text-white text-xl font-bold">⛳</span>
+        </div>
+        <div>
+          <div class="text-xs uppercase tracking-widest text-white/50">Bergen County Golf</div>
+          <div class="text-2xl font-bold tracking-tight">Red Tees</div>
+        </div>
+      </div>
+      <h1 class="text-4xl font-bold tracking-tight">Privacy Policy</h1>
+      <p class="text-white/50 text-sm mt-2">Last updated: April 26, 2026</p>
+    </header>
+
+    <section class="prose text-white/85">
+      <p>
+        Red Tees ("we", "us", "the app") helps Bergen County Golf members watch
+        and book tee times. This policy describes what we collect, how we use it,
+        and your choices.
+      </p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">Who we are</h2>
+      <p>
+        Red Tees is operated by David ("Rami") Greenspan in Teaneck, NJ.
+        Contact: <a href="mailto:ramigreenspan@gmail.com">ramigreenspan@gmail.com</a>
+      </p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">What we collect</h2>
+      <p>When you create an account:</p>
+      <ul>
+        <li><strong>Email address</strong> — used to sign you in.</li>
+        <li><strong>Name</strong> — used to greet you in the app.</li>
+        <li><strong>Password</strong> — stored hashed (bcrypt). We never see it in plaintext after account creation.</li>
+      </ul>
+      <p>When you link your Bergen County Golf account:</p>
+      <ul>
+        <li><strong>Bergen County username and password</strong> — encrypted at rest with AES before being stored. We use them only to sign in to bergencountygolf.cps.golf on your behalf to search and book tee times.</li>
+      </ul>
+      <p>When you use the app:</p>
+      <ul>
+        <li>Tee-time tickets and reservations you create.</li>
+        <li>Push notification tokens (if you enable notifications).</li>
+        <li>Anonymous analytics via Google Firebase Analytics: app version, platform, locale, timezone, screen views, and an anonymous ID. This helps us understand which features people use. You can disable analytics at any time in the app's privacy prompt.</li>
+      </ul>
+      <p>We do not collect location, contacts, photos, or other phone data.</p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">How we use it</h2>
+      <ul>
+        <li>Authenticate your sign-in.</li>
+        <li>Save your tee-time preferences and search tickets.</li>
+        <li>Sign in to Bergen County Golf as you to search/book/cancel reservations.</li>
+        <li>Send push notifications when a ticket books a tee time or when we cannot.</li>
+        <li>Aggregate, anonymous analytics to improve the app.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">How we share it</h2>
+      <p>We do <strong>not</strong> sell or rent your data.</p>
+      <p>We share data only with:</p>
+      <ul>
+        <li><strong>Bergen County Golf</strong> (bergencountygolf.cps.golf) — your golf account credentials are sent to their site so we can act on your behalf.</li>
+        <li><strong>Heroku, Inc.</strong> — our backend hosting provider in the United States.</li>
+        <li><strong>Google Firebase (Analytics) and Apple App Store / Google Play</strong> — for delivery, analytics, and crash reporting.</li>
+        <li><strong>Twilio SendGrid</strong> — to email you notifications about your bookings.</li>
+      </ul>
+      <p>We may also share your information if compelled by law.</p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">How we protect it</h2>
+      <ul>
+        <li>All network traffic uses HTTPS / TLS.</li>
+        <li>Bergen County passwords are encrypted with AES-256 before being stored in our database.</li>
+        <li>App passwords are hashed (bcrypt) and never reversible.</li>
+        <li>Database access is restricted to authorized administrators.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">How long we keep it</h2>
+      <p>
+        We keep your account data while your account is active. When you delete
+        your account from inside the app (Profile → Delete account), we mark it
+        deleted and disable access. Backups roll off within 30 days.
+      </p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">Your rights</h2>
+      <p>You can:</p>
+      <ul>
+        <li>Edit your name and password from Profile.</li>
+        <li>Delete your account from Profile → Delete account.</li>
+        <li>Request a copy of your data by emailing <a href="mailto:ramigreenspan@gmail.com">ramigreenspan@gmail.com</a>.</li>
+        <li>Disable analytics from the in-app analytics consent prompt.</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">Children</h2>
+      <p>
+        Red Tees is intended for adults (18+) and is not directed to children.
+        We do not knowingly collect data from anyone under 13. If you believe a
+        child has used the app, contact us and we will delete the account.
+      </p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">Changes</h2>
+      <p>
+        We may update this policy. Material changes will be communicated through
+        the app or via the email address on your account.
+      </p>
+
+      <h2 class="text-xl font-semibold text-white mt-10 mb-3">Contact</h2>
+      <p>
+        Questions? <a href="mailto:ramigreenspan@gmail.com">ramigreenspan@gmail.com</a>
+      </p>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-white/10 text-sm text-white/40">
+      © 2026 Stuff By Rambo · <a href="/" class="hover:text-white">stuffbyrambo.com</a>
+    </footer>
+  </main>
+</body>
+</html>
