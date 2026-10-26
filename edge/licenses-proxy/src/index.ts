@@ -6,6 +6,7 @@ const BROWSER_ORIGINS = new Set([
 ]);
 const ALLOWED_SUPABASE_FUNCTION_URLS = new Set([
   "https://rilxmoeezbmpvmcfkyko.supabase.co/functions/v1/commerce-api/",
+  "https://xuhvcnmztnzycifdusfv.supabase.co/functions/v1/commerce-api/",
 ]);
 
 export interface Env {

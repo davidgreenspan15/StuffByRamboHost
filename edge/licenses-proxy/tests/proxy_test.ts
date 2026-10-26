@@ -1,6 +1,7 @@
-import { buildUpstreamUrl, type Env, ProxyError, proxyRequest } from "../src/index.ts";
+import worker, { buildUpstreamUrl, type Env, ProxyError, proxyRequest } from "../src/index.ts";
 
 const APPROVED_FUNCTION_URL = "https://rilxmoeezbmpvmcfkyko.supabase.co/functions/v1/commerce-api/";
+const APPROVED_LIVE_FUNCTION_URL = "https://xuhvcnmztnzycifdusfv.supabase.co/functions/v1/commerce-api/";
 
 const env: Env = {
   SUPABASE_FUNCTION_URL: APPROVED_FUNCTION_URL,
@@ -48,7 +49,7 @@ Deno.test("rejects oversized actual bodies when content length is unavailable", 
   );
 });
 
-Deno.test("rejects every upstream except the approved Supabase function URL", async () => {
+Deno.test("rejects every upstream except the approved test and live Supabase function URLs", async () => {
   const invalidUpstreams = [
     "http://rilxmoeezbmpvmcfkyko.supabase.co/functions/v1/commerce-api/",
     "https://attacker.example/functions/v1/commerce-api/",
@@ -69,7 +70,11 @@ Deno.test("rejects every upstream except the approved Supabase function URL", as
   }) as typeof fetch;
 
   try {
-    for (const upstream of invalidUpstreams) {
+    const allInvalidUpstreams = new Set(invalidUpstreams.flatMap((upstream) => [
+      upstream,
+      upstream.replace("rilxmoeezbmpvmcfkyko", "xuhvcnmztnzycifdusfv"),
+    ]));
+    for (const upstream of allInvalidUpstreams) {
       await assertRejects(
         () =>
           proxyRequest(
@@ -93,6 +98,45 @@ Deno.test("rejects every upstream except the approved Supabase function URL", as
     }
     if (fetchCalled) {
       throw new Error("An invalid upstream was contacted");
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+Deno.test("routes the approved live function through the Worker without following redirects", async () => {
+  const originalFetch = globalThis.fetch;
+  let captured: Request | null = null;
+  let redirect: RequestRedirect | undefined;
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+    captured = new Request(input, init);
+    redirect = init?.redirect;
+    return new Response('{"available":false}', {
+      headers: { "Content-Type": "application/json" },
+    });
+  }) as typeof fetch;
+  try {
+    const response = await worker.fetch(
+      new Request("https://licenses.stuffbyrambo.com/v1/catalog/gesture-flow?locale=en"),
+      { ...env, SUPABASE_FUNCTION_URL: APPROVED_LIVE_FUNCTION_URL },
+      { waitUntil() {} },
+    );
+    if (!captured) throw new Error("Expected the approved live upstream to be contacted");
+    const upstream = captured as Request;
+    if (
+      upstream.url !== `${APPROVED_LIVE_FUNCTION_URL}v1/catalog/gesture-flow?locale=en` ||
+      upstream.method !== "GET" || redirect !== "manual"
+    ) {
+      throw new Error("Live routing changed the path, query, method or redirect policy");
+    }
+    if (upstream.headers.get("X-GF-Proxy-Secret") !== env.UPSTREAM_PROXY_SECRET) {
+      throw new Error("The live upstream did not receive the configured proxy secret");
+    }
+    if (
+      response.status !== 200 || (await response.text()) !== '{"available":false}' ||
+      response.headers.get("Cache-Control") !== "no-store"
+    ) {
+      throw new Error("The live response was not preserved with cache protection");
     }
   } finally {
     globalThis.fetch = originalFetch;

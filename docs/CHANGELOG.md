@@ -46,3 +46,8 @@ Source checkpoint 2026-10-26T20:45:47+00:00: Opus final review cleared source pu
 - **SEC-003:** Deployed device-key binding and bounded request parsing to the isolated backends and proxy; patched deployment dependencies. 66 backend and 7 proxy tests/typechecks pass. Prepared and deployed route-scoped website headers. Final production acceptance remains pending.
 - **OPS-003:** Supabase Free and Resend free/base are the launch constraint. Paid upgrades, add-ons, automatic overages and carbon remain disabled. Manual encrypted exports and PG17 restore drills passed; unattended backups and external monitoring remain incomplete.
 - **LIC-003 / REL-001:** Managed Payments sandbox checkout, email, current-source activation, reload, offline expiry and replay checks passed. Restricted-key and durable refund-revocation proof are still pending. Sales remain disabled.
+
+## 2026-10-26 production integration checkpoint
+
+- **OPS-003:** Verified production SMTP delivery, one-time token verification/replay rejection, and the first automatic worker run. Independent monitoring and unattended off-site backups remain incomplete.
+- **SEC-002 / LIC-003:** Prepared explicit production proxy routing with eight passing tests/typecheck. Live webhook is configured but disabled until cutover; temporary setup credential revoked. Restricted-key sandbox acceptance and public publication remain pending.

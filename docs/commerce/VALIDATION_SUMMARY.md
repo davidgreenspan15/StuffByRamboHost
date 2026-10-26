@@ -5,7 +5,7 @@ Verified October 26, 2026. This is source preparation; public sales remain disab
 ## Executed checks
 
 - 66 backend Deno tests and function typechecking passed.
-- 7 Cloudflare proxy tests and typechecking passed; deployment tooling audit reports zero advisories.
+- 8 Cloudflare proxy tests and typechecking passed; deployment tooling audit reports zero advisories.
 - Disposable PostgreSQL purchase-code checks passed, including the concurrent redemption race and refund/environment isolation.
 - 11 disposable PostgreSQL policy-publication cases passed, including rerun safety and rollback on conflicts.
 - Storefront validation passed for 10 primary pages and the scoped commerce/policy surface.
@@ -20,7 +20,7 @@ The latest backend functions and key-binding migration are deployed to both isol
 
 Supabase Free and Resend Transactional Free were verified with paid overages disabled. Manual encrypted exports and PostgreSQL 17 restore drills passed for both environments, preserving 23 protected commerce tables and zero direct browser table/RPC grants. Unattended backup setup remains blocked by managed Auth ownership restrictions; no workflow or paid backup service was activated. Cloudflare zone Free was verified; account-level Workers billing remains unverified.
 
-Production SMTP and separate runtime secrets are configured, but actual production inbox acceptance, the live webhook, scheduled processing, independent alerts, public policy publication, production routing, app activation/update acceptance and final checkout enablement remain separate gates. The signed, notarized and stapled 3.2.29 build47 candidate has not been publicly released. Public sales remain disabled.
+Production SMTP passed a real inbox and one-time token verification; replay was rejected and the test session was signed out. The live webhook is configured at the tested API version and remains disabled until routing cutover; its temporary setup key was revoked. Scheduled processing is installed and its first automatic run passed, with no failed or stuck event/email work reported. Independent alerts, public policy publication, production routing, browser portal acceptance, app activation/update acceptance and final checkout enablement remain separate gates. The signed, notarized and stapled 3.2.29 build47 candidate has not been publicly released. Public sales remain disabled.
 
 Source commits on the preparation branch do not deploy Supabase or Cloudflare, update the website's deployment branch, publish an appcast or enable sales. Historical completed tests establish only their stated environment and version.
 

@@ -32,3 +32,8 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 - [ ] **SEC-003** — **P1** — **Now** — Device-key binding, bounded uploads and patched tooling deployed to isolated backends/proxy; 66 backend and 7 proxy tests pass. Native hardening has 171 passing tests and a notarized build47 candidate. Final hosted production/app acceptance remains pending. `(in-progress; source and isolated deployment verified)`
 - [ ] **OPS-003** — **P1** — **Now** — Supabase Free, Resend base/free and existing free hosting only; no new recurring charge, automatic paid overage or carbon. Manual encrypted backup restores pass; unattended backup and independent monitoring remain open. `(in-progress; owner cost constraint verified)`
+
+## Production integration checkpoint — 2026-10-26
+
+- **OPS-003 | P0 | Now | in-progress | cloud-partial:** Production SMTP/token and automatic scheduler checks pass. Independent monitoring and unattended off-site backups remain open.
+- **SEC-002 / LIC-003 | P0 | Now | in-progress | local-done routing preparation:** Live URL allowlisting and eight proxy tests/typecheck pass. Restricted-key sandbox proof, routing cutover and webhook activation remain open; sales remain disabled.
