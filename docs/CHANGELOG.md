@@ -35,6 +35,8 @@ Integrated reviewed production code isolation, prepared immutable one-Mac polici
 
 ## 2026-10-26 source publication preparation
 
-User authorized commit and push. Source is prepared on `codex/gesture-flow-commerce-preparation`; main, Pages, live checkout and app releases remain unchanged. Covered tickets: WEB-001, LEGAL-001, SEC-001, QA-001, LIC-001, LIC-002 and local preparation under LIC-003, SEC-002, REL-001, OPS-001, QA-002. Design-only work and private provider evidence are excluded from the public commit. Public validation: [summary](commerce/VALIDATION_SUMMARY.md). Commit ref: PENDING.
+User authorized commit and push. Source is prepared on `codex/gesture-flow-commerce-preparation`; main, Pages, live checkout and app releases remain unchanged. Covered tickets: WEB-001, LEGAL-001, SEC-001, QA-001, LIC-001, LIC-002 and local preparation under LIC-003, SEC-002, REL-001, OPS-001, QA-002. Design-only work and private provider evidence are excluded from the public commit. Public validation: [summary](commerce/VALIDATION_SUMMARY.md). Commit ref: `4aefb2bbdd3b0bedc8fd089f1e8c7b280c6663ef`.
 
 Codex independently reran 59 backend tests/typecheck, 6 proxy tests/typecheck, 11 policy database cases, three purchase database phases, and storefront/header validation. Desktop counterpart passed 159 Python tests. Opus final source-publication review is tracked in the local handoff; this is not production launch approval.
+
+Source checkpoint 2026-10-26T20:45:47+00:00: Opus final review cleared source publication after private-evidence and local-settings exclusions; Codex verified the exact staged tree. Source commit `4aefb2bbdd3b0bedc8fd089f1e8c7b280c6663ef`; branch push does not merge main or deploy.
