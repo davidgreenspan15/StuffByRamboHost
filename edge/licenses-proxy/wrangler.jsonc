@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developers.cloudflare.com/schemas/wrangler/config-schema.json",
+  "name": "gesture-flow-license-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-13",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "licenses.stuffbyrambo.com",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}

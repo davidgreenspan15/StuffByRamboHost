@@ -1,0 +1,13 @@
+{
+  "name": "gesture-flow-device-proof-v1-refresh",
+  "method": "POST",
+  "path": "/v1/devices/refresh",
+  "timestamp": 1783944000,
+  "nonce": "AAECAwQFBgcICQoLDA0ODxAR",
+  "bodyUtf8": "{\"permitJti\":\"20000000-0000-4000-8000-000000000002\"}",
+  "bodySha256": "065153b5fdc1dd57174fd26f869e263931db38ffe5d2fb234a2282a154dfc6ad",
+  "canonicalUtf8": "GF1\nPOST\n/v1/devices/refresh\n1783944000\nAAECAwQFBgcICQoLDA0ODxAR\n065153b5fdc1dd57174fd26f869e263931db38ffe5d2fb234a2282a154dfc6ad",
+  "signatureBase64Url": "256FjZGZRt9grdbtNsxkdXMKnk8I-oXkeUKfDezvPxceZlKl9Ucc4Pbrw2uaL_bB9UDMPMBxDRGQyNTIUBSICQ",
+  "publicKeyRawHex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+  "privateKeySeedHex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60"
+}

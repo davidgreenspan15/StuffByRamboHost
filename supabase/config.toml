@@ -1,0 +1,55 @@
+project_id = "stuffbyrambo-commerce"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 17
+
+[db.ssl_enforcement]
+enabled = true
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "https://stuffbyrambo.com"
+additional_redirect_urls = ["https://stuffbyrambo.com/license/"]
+enable_signup = true
+enable_anonymous_sign_ins = false
+enable_manual_linking = false
+minimum_password_length = 12
+password_requirements = "lower_upper_letters_digits_symbols"
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+secure_password_change = true
+max_frequency = "60s"
+otp_length = 6
+otp_expiry = 3600
+
+# Hosted Supabase blocks custom templates while a free project uses its default
+# mailer. After custom SMTP is configured, enable the block below and push the
+# auth config again. The reviewed template remains checked in at that path.
+# [auth.email.template.magic_link]
+# subject = "Your Gesture Flow sign-in link"
+# content_path = "./supabase/templates/magic_link.html"
+
+[auth.sms]
+enable_signup = false
+enable_confirmations = false
+
+[functions.commerce-api]
+verify_jwt = false
+
+[functions.stripe-worker]
+verify_jwt = false

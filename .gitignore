@@ -1,1 +1,15 @@
 .DS_Store
+.dev.vars
+.env
+.env.*
+!.env.example
+!.env.*.example
+.wrangler/
+node_modules/
+supabase/.branches/
+supabase/.temp/
+.claude/settings.local.json
+
+# Private provider evidence remains local; publish the sanitized summary instead.
+docs/commerce/PRODUCTION_PREPARATION_2026-10-26.md
+docs/commerce/TEST_E2E_2026-10-26.md

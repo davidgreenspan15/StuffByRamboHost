@@ -1,0 +1,36 @@
+{
+  "status": "prepared-not-published",
+  "policySetVersion": "gesture-flow-us-2026-10-26-v1",
+  "documents": {
+    "terms": {
+      "path": "legal/terms.html",
+      "immutablePath": "legal/versions/2026-10-26/terms.html",
+      "version": "gesture-flow-terms-eula-2026-10-26-v1",
+      "sha256": "1eab820fd46c283008523ab96557a8c099861400281f6871a2fb49a73eec7ed4"
+    },
+    "refunds": {
+      "path": "legal/refunds.html",
+      "immutablePath": "legal/versions/2026-10-26/refunds.html",
+      "version": "gesture-flow-refunds-2026-10-26-v1",
+      "sha256": "c6d20d0e6e091cab18ea877a0ecf48ff35e263429e3e9a279234224fbc3f0a7a"
+    },
+    "privacy": {
+      "path": "legal/privacy.html",
+      "immutablePath": "legal/versions/2026-10-26/privacy.html",
+      "version": "gesture-flow-privacy-2026-10-26-v1",
+      "sha256": "5f94348db4e265a17091d411339db6e614d52637f93d5efb8e328efd4188a41e"
+    },
+    "compatibility": {
+      "path": "gesture-flow/compatibility.html",
+      "immutablePath": "legal/versions/2026-10-26/compatibility.html",
+      "version": "gesture-flow-compatibility-2026-10-26-v1",
+      "sha256": "7b21a5f957767ad8f1873bce41c54209a737094da5b730700383ae4ef2547d6b"
+    }
+  },
+  "previousHashes": {
+    "terms": "607acb94c73fd4846f5500d052bf7dad4a703901ca28a05ef2cd22cebc88e14b",
+    "refunds": "7b821ead6bf53bd35c535bb2500f1349c0252d717fd36480542044903e0dbe2d",
+    "privacy": "d0d213bf8099ac2900dcaec5035926fcd9f08e9edd53becce09e17f0c1ce0359",
+    "compatibility": "dba1d4843c9a48e4f6c3745512bf3e90f8bf507f40e0df0a4e16ceeecf8c25e8"
+  }
+}

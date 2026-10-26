@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign in securely to activate Gesture Flow and manage licensed Macs or a refund request." />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="color-scheme" content="dark" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://licenses.stuffbyrambo.com; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests" />
+  <title>Gesture Flow license portal — Stuff by Rambo</title>
+  <link rel="stylesheet" href="/assets/storefront.css" />
+  <script src="/assets/storefront-config.js" defer></script>
+  <script src="/assets/storefront.js" defer></script>
+</head>
+<body data-page="portal">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Main navigation">
+      <a class="brand" href="/">stuff by <span>Rambo</span></a>
+      <div class="nav-links"><a href="/gesture-flow/">Gesture Flow</a><a href="/gesture-flow/compatibility.html">Compatibility</a><a class="nav-priority" aria-current="page" href="/license/">License portal</a></div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-shell stack-lg">
+    <header class="prose">
+      <span class="eyebrow">Password-free account access</span>
+      <h1>Activate and manage Gesture Flow.</h1>
+      <p class="lede">Use a one-time email link. This page keeps the browser session in a secure cookie; it does not store an access token in local storage.</p>
+      <div id="portal-status" class="status" role="status" aria-live="polite" hidden></div>
+    </header>
+
+    <section id="portal-exchange" class="card" aria-labelledby="continue-title" hidden>
+      <h2 id="continue-title">Continue your secure sign-in</h2>
+      <p class="muted">Click Continue to use this one-time email link. The portal waits for your click so automated email scanners cannot sign in for you.</p>
+      <button id="continue-magic-link" class="button button-primary" type="button">Continue to license portal</button>
+    </section>
+
+    <section id="portal-login" class="card" aria-labelledby="login-title">
+      <h2 id="login-title">Email me a sign-in link</h2>
+      <p class="muted">Use the email from checkout or the email used for your trial. The response stays generic to protect account privacy.</p>
+      <form id="magic-link-form">
+        <div class="form-group">
+          <label for="portal-email">Email address</label>
+          <input id="portal-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+        </div>
+        <div class="form-actions"><button id="magic-link-button" class="button button-primary" type="submit">Send one-time link</button></div>
+        <div id="magic-link-status" class="status" role="status" aria-live="polite" hidden></div>
+      </form>
+    </section>
+
+    <section id="portal-account" class="stack-lg" aria-labelledby="account-title" hidden>
+      <div class="card">
+        <div class="section-heading">
+          <div><h2 id="account-title">Your license account</h2><p id="account-email" class="muted small">Signed-in customer</p></div>
+          <button id="sign-out-button" class="button button-secondary" type="button">Sign out</button>
+        </div>
+        <div class="content-grid">
+          <div class="card-soft"><h3>Entitlement</h3><p id="entitlement-status" class="muted">Loading…</p></div>
+          <div class="card-soft"><h3>Device allowance</h3><p id="device-count" class="muted">Loading…</p></div>
+          <div class="card-soft"><h3>Offline use</h3><p class="muted">Reconnect at least every 30 days so the app can confirm license or revocation status.</p></div>
+        </div>
+      </div>
+
+      <div class="portal-grid">
+        <section class="card" aria-labelledby="activation-title">
+          <h2 id="activation-title">Approve a Mac</h2>
+          <p class="muted">Enter the code shown in Gesture Flow on a Mac you control. Approval uses an owned paid v3 entitlement. If you do not have one and are eligible, it starts your one-time 14-day no-card trial.</p>
+          <p class="callout small">A paid license covers one active Mac; the trial covers up to two. The trial never converts automatically and does not require payment information.</p>
+          <form id="activation-form">
+            <div class="form-group">
+              <label for="activation-code">Device code</label>
+              <input id="activation-code" name="activationCode" type="text" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" maxlength="16" placeholder="AB12CD34" required />
+            </div>
+            <fieldset>
+              <legend>Required activation acknowledgements</legend>
+              <div class="checkbox-row"><input id="activation-terms" type="checkbox" data-activation-acceptance="terms" required /><label for="activation-terms">I agree to the current <a href="/legal/terms.html">Terms and EULA</a> for the trial or paid license.</label></div>
+              <div class="checkbox-row"><input id="activation-compatibility" type="checkbox" data-activation-acceptance="compatibility" required /><label for="activation-compatibility">This is my Apple silicon Mac running macOS 15 or later, and I can grant the required permissions.</label></div>
+            </fieldset>
+            <div class="form-actions"><button id="activation-button" class="button button-primary" type="submit" disabled>Approve this Mac</button></div>
+            <div id="activation-status" class="status" role="status" aria-live="polite" hidden></div>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="devices-title">
+          <div class="section-heading"><h2 id="devices-title">Active Macs</h2><span class="pill">One per purchase</span></div>
+          <p id="empty-devices" class="muted">No active Macs are listed.</p>
+          <ul id="device-list" class="device-list" aria-live="polite"></ul>
+          <p class="muted tiny">Deactivation takes effect when the Mac next checks its license, no later than the 30-day offline limit.</p>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="refund-title">
+        <h2 id="refund-title">Request a refund</h2>
+        <p class="muted">Requests within 14 calendar days of purchase are eligible under the published policy, subject to mandatory rights and abuse review. The server checks the actual purchase date and status.</p>
+        <form id="refund-form">
+          <div class="form-group">
+            <label for="refund-order">Purchase to refund</label>
+            <select id="refund-order" name="orderId" required disabled>
+              <option value="">Loading eligible purchases…</option>
+            </select>
+            <p class="muted tiny">Choose the exact charge. Each purchase is a separate license and device allowance.</p>
+          </div>
+          <div class="form-group">
+            <label for="refund-reason">Reason</label>
+            <select id="refund-reason" name="reason" required>
+              <option value="">Choose a reason</option>
+              <option value="compatibility">Compatibility or permissions</option>
+              <option value="technical">Technical problem</option>
+              <option value="accidental">Accidental or duplicate purchase</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="refund-details">Details <span class="muted">(optional)</span></label>
+            <textarea id="refund-details" name="details" maxlength="1000" placeholder="Include enough detail for support to locate and review the issue. Do not include card numbers or passwords."></textarea>
+          </div>
+          <div class="checkbox-row"><input id="refund-acknowledgement" name="refundAcknowledgement" type="checkbox" value="accepted" required /><label for="refund-acknowledgement">I understand a completed refund revokes the v3 entitlement and approved Macs will lose access at their next license check, no later than 30 days.</label></div>
+          <p class="muted small">Do not recognize a charge? Contact <a href="mailto:support@stuffbyrambo.com">support</a> promptly and use your card issuer's security process when appropriate.</p>
+          <div class="form-actions"><button id="refund-button" class="button button-danger" type="submit" disabled>Submit refund request</button></div>
+          <div id="refund-status" class="status" role="status" aria-live="polite" hidden></div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="footer-shell"><span>© 2026 Stuff by Rambo</span><nav class="footer-links" aria-label="Legal and support"><a href="/legal/terms.html">Terms &amp; EULA</a><a href="/legal/refunds.html">Refunds</a><a href="/legal/privacy.html">Privacy</a><a href="mailto:support@stuffbyrambo.com">Support</a></nav></div></footer>
+</body>
+</html>

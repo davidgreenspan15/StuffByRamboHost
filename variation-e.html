@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stuff By Rambo</title>
   <meta name="description" content="Apps and tools by Rambo." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests" />
+  <link rel="stylesheet" href="/assets/legacy-utilities.css" />
+  <script src="/assets/variation-effects.js" defer></script>
   <style>
     /*
       VARIATION E: "TWO-TONE SPLIT"
@@ -107,7 +107,7 @@
                   Available
                 </span>
               </div>
-              <p class="text-xs" style="color:var(--muted-dark)">macOS 12+ &middot; Apple Silicon &middot; Free</p>
+              <p class="text-xs" style="color:var(--muted-dark)">macOS 15+ &middot; Apple Silicon &middot; 14-day trial</p>
             </div>
           </div>
           <p class="text-sm leading-relaxed mb-6" style="color:var(--muted-dark)">
@@ -176,9 +176,5 @@
     </main>
   </div>
 
-  <script>
-    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  </script>
 </body>
 </html>

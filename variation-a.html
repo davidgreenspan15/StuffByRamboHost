@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stuff By Rambo</title>
   <meta name="description" content="Apps and tools by Rambo." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests" />
+  <link rel="stylesheet" href="/assets/legacy-utilities.css" />
+  <script src="/assets/variation-effects.js" defer></script>
   <style>
     /*
       VARIATION A: "BENTO DASHBOARD"
@@ -94,9 +94,9 @@
               <span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent); animation:pulse 2s infinite;"></span>
               Available Now
             </span>
-            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold text-zinc-500" style="border:1px solid var(--border);">Free</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold text-zinc-500" style="border:1px solid var(--border);">14-day trial</span>
             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold text-zinc-500" style="border:1px solid var(--border);">Apple Silicon</span>
-            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold text-zinc-500" style="border:1px solid var(--border);">macOS 12+</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold text-zinc-500" style="border:1px solid var(--border);">macOS 15+</span>
           </div>
         </div>
         <div class="flex gap-3">
@@ -155,10 +155,5 @@
     </div>
   </div>
 
-  <script>
-    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.05});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-    document.querySelectorAll('.tile').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',`${e.clientX-r.left}px`);c.style.setProperty('--my',`${e.clientY-r.top}px`);}));
-  </script>
 </body>
 </html>

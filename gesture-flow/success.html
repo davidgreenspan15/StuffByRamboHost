@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gesture Flow checkout status." />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="color-scheme" content="dark" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://licenses.stuffbyrambo.com; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests" />
+  <title>Checkout status — Gesture Flow</title>
+  <link rel="stylesheet" href="/assets/storefront.css" />
+  <script src="/assets/storefront-config.js" defer></script>
+  <script src="/assets/storefront.js" defer></script>
+</head>
+<body data-page="checkout-success">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Main navigation">
+      <a class="brand" href="/">stuff by <span>Rambo</span></a>
+      <div class="nav-links"><a href="/gesture-flow/">Gesture Flow</a><a class="nav-priority" href="/license/">License portal</a></div>
+    </nav>
+  </header>
+  <main id="main-content" class="page-shell">
+    <section class="card prose" aria-labelledby="payment-heading">
+      <span class="eyebrow">Secure checkout return</span>
+      <h1 id="payment-heading">Checking your order</h1>
+      <p class="lede">This page asks the license service for server-confirmed status. A browser redirect alone never creates a license.</p>
+      <div id="payment-status" class="status" role="status" aria-live="polite">Checking payment status…</div>
+      <div class="button-row">
+        <a class="button button-primary" href="/license/">Open license portal</a>
+        <a class="button button-secondary" href="/gesture-flow/">Return to Gesture Flow</a>
+      </div>
+      <p class="muted small">Do not submit another payment while an earlier payment is processing. Check the email used at checkout first.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-shell"><span>© 2026 Stuff by Rambo</span><div class="footer-links"><a href="/legal/refunds.html">Refunds</a><a href="mailto:support@stuffbyrambo.com">Support</a></div></div></footer>
+</body>
+</html>

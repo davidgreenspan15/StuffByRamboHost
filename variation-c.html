@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stuff By Rambo</title>
   <meta name="description" content="Apps and tools by Rambo." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests" />
+  <link rel="stylesheet" href="/assets/legacy-utilities.css" />
+  <script src="/assets/variation-effects.js" defer></script>
   <style>
     /*
       VARIATION C: "HORIZONTAL SCROLL SHOWCASE"
@@ -92,7 +92,7 @@
               </span>
             </div>
             <p class="text-sm leading-relaxed flex-grow mb-6" style="color:var(--muted)">
-              Control volume and brightness using hand gestures. Powered by MediaPipe hand tracking. Works on macOS 12+ with Apple Silicon.
+              Control volume and brightness using hand gestures. Powered by MediaPipe hand tracking. Works on macOS 15+ with Apple Silicon.
             </p>
             <div class="flex gap-2.5 mt-auto">
               <a href="https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg"
@@ -162,9 +162,5 @@
     </footer>
   </div>
 
-  <script>
-    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.05});
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  </script>
 </body>
 </html>

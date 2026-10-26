@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["deno.window", "dom", "dom.iterable"],
+    "strict": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.110.2"
+  },
+  "tasks": {
+    "check": "deno check commerce-api/index.ts stripe-worker/index.ts",
+    "test": "deno test --allow-env _shared/*_test.ts commerce-api/routes/*_test.ts"
+  }
+}

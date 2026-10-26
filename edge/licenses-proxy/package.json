@@ -1,0 +1,16 @@
+{
+  "name": "gesture-flow-license-api-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "deno task check",
+    "test": "deno task test",
+    "deploy:check": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "wrangler": "4.110.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,8 +1,12 @@
-# CLAUDE.md
+# Website project guidance
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
+
+For shared workspace rules, read `~/Coding/AGENTS.md` and `~/Coding/CLAUDE.md`. For company facts, business accounts and cross-product payment decisions, start at `/Users/ramigreenspan/Documents/Stuff By Rambo LLC/README.md` before asking Rami to repeat them.
+
+Commerce work exists in the local working tree under `supabase/`, `edge/`, `gesture-flow/`, `license/`, and `docs/commerce/`. The static-site description below covers the original portfolio. For commerce implementation and launch status, read `docs/commerce/LAUNCH_GATES.md`, `API_CONTRACT.md`, and `PRODUCTION_OPERATIONS_RUNBOOK.md`; do not infer readiness from the original no-build description.
 
 Static portfolio/landing page site for Rami's projects, hosted on GitHub Pages at **stuffbyrambo.com**. Built with vanilla HTML and Tailwind CSS (CDN) — no build step, no package manager, no dependencies.
 
@@ -18,6 +22,8 @@ npx http-server
 ```
 
 Deployment is automatic via GitHub Pages when changes are pushed to `main`.
+
+A push containing the staged commerce, legal, Gesture Flow or license pages can publish them publicly. Treat that as a release decision and follow the commerce launch gates as well as Rami's explicit commit/push authorization.
 
 ## Architecture
 
