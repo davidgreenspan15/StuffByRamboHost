@@ -37,3 +37,11 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 - **OPS-003 | P0 | Now | in-progress | cloud-partial:** Production SMTP/token and automatic scheduler checks pass. Independent monitoring and unattended off-site backups remain open.
 - **SEC-002 / LIC-003 | P0 | Now | in-progress | local-done routing preparation:** Live URL allowlisting and eight proxy tests/typecheck pass. Restricted-key sandbox proof, routing cutover and webhook activation remain open; sales remain disabled.
+
+## Restricted-key acceptance and production cutover — 2026-10-26
+
+- LIC-003 / SEC-002: restricted Managed Payments sandbox payment, activation, replay rejection, refund and durable signed revocation passed. Stable API switched to isolated live project after disabling test offer/webhook; production key readback verified. Live checkout remains disabled.
+- REL-001: independent review found shared-origin legacy scripts and personal/business audience mismatch. Reviewed localized pages are required for publication; unpublished terms/manifest/SQL now match the personal-use product. Old installer links removed pending candidate release. Eleven policy scenarios passed.
+- OPS-003: reviewed minimal health endpoint deployed; scheduler active. Existing-iCloud encrypted upload/download/restore succeeded. Unattended backup and failure-notification acceptance remain pending.
+- Security cleanup: native accessibility output unexpectedly exposed two sandbox keys; owner rotation requested. No values copied into evidence. Fable review remains reserved.
+- Attribution: coordinator owned connectors, payment/refund, live routing and policy integration. Native operations_readiness owns monitoring/backup; release_review independently reviewed health and site; candidate_acceptance verified signed artifact/source parity. User reserved later Fable review, so no new Claude assignment. Team policy revision2026-10-13 applied; no engineering-effort percentage claimed. Source commit pending.

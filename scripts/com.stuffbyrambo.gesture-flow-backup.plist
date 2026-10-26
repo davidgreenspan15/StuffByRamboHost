@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.stuffbyrambo.gesture-flow-backup</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/Frameworks/Python.framework/Versions/3.12/bin/python3</string>
+    <string>/Users/ramigreenspan/Coding/StuffByRamboHost/scripts/commerce-local-backup.py</string>
+  </array>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>3</integer><key>Minute</key><integer>23</integer></dict>
+  <key>RunAtLoad</key><true/>
+  <key>ProcessType</key><string>Background</string>
+  <key>LowPriorityIO</key><true/>
+  <key>Umask</key><integer>63</integer>
+  <key>StandardOutPath</key><string>/Users/ramigreenspan/Library/Application Support/Gesture Flow Production Setup/local-backup-launchd.log</string>
+  <key>StandardErrorPath</key><string>/Users/ramigreenspan/Library/Application Support/Gesture Flow Production Setup/local-backup-launchd-error.log</string>
+</dict>
+</plist>

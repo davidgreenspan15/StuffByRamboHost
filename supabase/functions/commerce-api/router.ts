@@ -8,6 +8,7 @@ import {
   requireTrustedProxy,
 } from "../_shared/http.ts";
 import { catalog } from "./routes/catalog.ts";
+import { operationalHealth } from "./routes/health.ts";
 import { checkoutStatus, createCheckoutSession } from "./routes/checkout.ts";
 import {
   createActivationChallenge,
@@ -85,6 +86,17 @@ export async function route(
   const path = publicPath(request);
   const client = serviceClient(config);
   const successHeaders = new Headers({ "X-Request-ID": id });
+
+  if (path === "/v1/health" && request.method === "GET") {
+    const result = await operationalHealth(client, request);
+    return jsonResponse(
+      config,
+      request,
+      result,
+      result.healthy ? 200 : 503,
+      successHeaders,
+    );
+  }
 
   if (path === "/v1/catalog/gesture-flow" && request.method === "GET") {
     return jsonResponse(
@@ -286,6 +298,7 @@ export async function route(
   }
 
   const knownPath = [
+    "/v1/health",
     "/v1/catalog/gesture-flow",
     "/v1/checkout-sessions",
     "/v1/purchase-activation-codes",

@@ -104,7 +104,7 @@ export async function catalog(
   }
   if (!offer) {
     return unavailable(
-      "Checkout is not published yet. You can still download Gesture Flow and start the account trial.",
+      "Purchases are not available yet. Please check back after release verification.",
     );
   }
   if (

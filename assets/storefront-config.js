@@ -4,7 +4,6 @@
   const config = {
     apiBaseUrl: "https://licenses.stuffbyrambo.com/v1",
     productSku: "gesture-flow-v3",
-    downloadUrl: "https://github.com/davidgreenspan15/GestureFlowMacApp/releases/latest/download/GestureFlow.dmg",
     supportEmail: "support@stuffbyrambo.com",
     policySetVersion: "gesture-flow-us-2026-10-26-v1",
     policies: Object.freeze({

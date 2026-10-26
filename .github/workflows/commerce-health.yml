@@ -1,0 +1,48 @@
+name: Commerce health
+on:
+  workflow_dispatch:
+    inputs:
+      failure_drill:
+        description: Verify the owner's failed-run notification without changing production
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+permissions: {}
+concurrency:
+  group: commerce-health
+  cancel-in-progress: false
+jobs:
+  health:
+    # Only the approved public repository can use this free standard runner.
+    # Enable after the endpoint and owner failure notifications are verified.
+    if: github.repository == 'davidgreenspan15/StuffByRamboHost' && github.event.repository.private == false && vars.COMMERCE_HEALTH_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Requested notification failure drill
+        if: github.event_name == 'workflow_dispatch' && inputs.failure_drill == true
+        run: |
+          echo '::error::Requested notification delivery drill. Production was not changed.'
+          exit 1
+      - name: Verify public commerce health
+        run: |
+          python3 - <<'PY'
+          import json, ssl, sys, urllib.request
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, *args, **kwargs):
+                  return None
+          try:
+              opener = urllib.request.build_opener(NoRedirect(), urllib.request.HTTPSHandler(context=ssl.create_default_context()))
+              request = urllib.request.Request('https://licenses.stuffbyrambo.com/v1/health', headers={'User-Agent':'GestureFlow-Health/1'})
+              with opener.open(request, timeout=30) as response:
+                  body = response.read(1025)
+                  assert response.status == 200 and len(body) <= 1024
+                  assert 'no-store' in response.headers.get('Cache-Control', '')
+                  assert json.loads(body) == {'healthy': True}
+              print('Commerce health verified.')
+          except Exception:
+              print('::error::Commerce health check failed. Review the private operations runbook.')
+              sys.exit(1)
+          PY

@@ -13,3 +13,6 @@ supabase/.temp/
 # Private provider evidence remains local; publish the sanitized summary instead.
 docs/commerce/PRODUCTION_PREPARATION_2026-10-26.md
 docs/commerce/TEST_E2E_2026-10-26.md
+
+# Local verification caches
+__pycache__/

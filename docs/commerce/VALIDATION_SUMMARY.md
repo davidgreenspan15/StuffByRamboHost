@@ -27,3 +27,37 @@ Source commits on the preparation branch do not deploy Supabase or Cloudflare, u
 ## Review
 
 Claude Opus supplied implementation and review of licensing environment isolation and release guards. Codex integrated the work and reran the checks above. No production readiness or legal/tax professional review is implied by this source milestone.
+
+
+## Restricted-key and production routing acceptance — October 26
+
+Both Stripe live/sandbox connectors and both Supabase projects are accessible.
+The approved restricted sandbox key completed Managed Payments checkout through
+the real backend. Payment, signed webhook fulfillment, owner activation email,
+one-Mac activation, reload, bounded offline access, and rejection of code reuse
+passed. Full sandbox refund produced a verified signed revocation; reload stayed
+locked. Durable sanitized evidence was retained privately. No live payment or
+installed application state change occurred.
+
+The test offer and test webhook were disabled before stable API cutover. The
+reviewed Cloudflare proxy now uses all three matching live bindings. Public
+verification returns the production permit key and an unavailable catalog; live
+orders remain zero. The pinned live webhook is enabled with the exact eleven
+supported event types. Public sales and purchase-code release gates remain off.
+
+The prepared, previously unpublished October terms now match the approved
+personal-use product; canonical/immutable bytes, manifest and SQL assertions were
+updated together. Eleven isolated publication/rollback checks passed. Historical
+July policy bytes were preserved. Download links are held closed until candidate
+release acceptance; the older public installer is not presented as this candidate.
+
+Current checks: 69 backend tests/typechecks, 8 proxy tests/typecheck and dry build,
+11 policy database scenarios, scoped storefront validation. Production health
+source was independently reviewed; actual schedule/notification evidence follows.
+One encrypted live backup was uploaded to existing iCloud storage, downloaded,
+hash-verified and restored successfully. Unattended Mac execution is not yet
+accepted; Mac availability, Keychain access and cloud quota remain operating limits.
+
+A native browser accessibility read unexpectedly exposed two sandbox API keys.
+Owner rotation was requested, with no values retained in this report. Production
+keys were not exposed by that read. Credential cleanup remains a readiness gate.
