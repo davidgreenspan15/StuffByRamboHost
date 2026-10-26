@@ -253,9 +253,9 @@ export async function createStripeCheckout(
     "metadata[offer_code]": input.offerCode,
     "payment_intent_data[metadata][checkout_intent_id]": input.checkoutIntentId,
   };
-  // Standalone sandboxes may not expose public business settings before live
-  // onboarding. Keep explicit consent and point to the existing terms document.
-  if (config.stripeEnvironment === "test") {
+  // Standard sandboxes may lack public business settings before onboarding.
+  // Managed Payments rejects custom_text and supplies its own checkout terms.
+  if (config.stripeEnvironment === "test" && !config.stripeManagedPayments) {
     form["custom_text[terms_of_service_acceptance][message]"] =
       "I agree to the [Terms of Sale and End User License Agreement](https://stuffbyrambo.com/legal/terms.html).";
   }

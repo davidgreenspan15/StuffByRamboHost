@@ -19,7 +19,7 @@ disabled until every gate has named approval and retained evidence. Test-mode
 success, deployed infrastructure, or a provider recommendation is not live
 launch approval.
 
-## Current test versus live state
+## Historical test versus live state (July 13; superseded by current validation)
 
 | Area | Isolated test | Live / customer-facing |
 | --- | --- | --- |
@@ -31,6 +31,13 @@ launch approval.
 
 The current system is fail-closed: there is no working public purchase path.
 Do not convert this safe state into a partial launch.
+
+Current October 26 evidence is maintained in [validation summary](VALIDATION_SUMMARY.md).
+The table above is retained as a historical baseline, not a current provider inventory.
+Both isolated databases and functions now exist. Supabase and Resend free plans,
+manual encrypted backup restores, current-source sandbox activation, and deployed
+route-scoped headers have been verified. Restricted-key Managed Payments and final
+production integration/acceptance remain incomplete; live sales are disabled.
 
 ## Non-negotiable gates
 
@@ -125,17 +132,29 @@ Official Supabase source:
 
 - [Send emails with custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp)
 
-### 6. Supabase production plan, backup, and recovery
+### 6. Free-tier capacity, backup, and recovery
 
-- [ ] Provision a dedicated live Supabase project on **Pro or higher** before
-  storing customer or payment records. Test and live must not share users,
-  secrets, signing keys, or data.
-- [ ] Confirm daily backups and retention in the Dashboard. Decide whether PITR
-  is required from the approved recovery-point objective; daily backups can
-  still lose up to a day's changes.
+- **Owner decision, 2026-10-26:** release on **Supabase Free**, Resend's free/base
+  allowance, and existing free hosting allowances. No new recurring charge,
+  paid add-on, automatic paid overage, or carbon contribution is authorized.
+  Previously approved Stripe transaction and Managed Payments fees are separate.
+  This supersedes the earlier blanket requirement for Supabase Pro.
+- [ ] Keep a dedicated live Supabase Free project. Test and live must not share
+  users, secrets, signing keys, or data.
+- [ ] Verify encrypted off-site logical backups within existing free allowances;
+  do not claim managed daily backups or point-in-time recovery on Free. Record
+  the last successful backup and recovery-point target; a failed or delayed
+  daily backup can lose more than a day's changes.
 - [ ] Complete and time a restore drill, document downtime/rollback ownership,
-  and maintain an approved off-site logical backup where appropriate. Account
-  separately for objects not contained in database backups.
+  and account separately for provider secrets/configuration and Storage objects
+  not contained in database backups.
+- [ ] Verify actual plan, quota usage and zero-paid-overage settings before
+  enabling scheduled backups or any optional service. Shared account quotas
+  include other products and test traffic.
+- [ ] Record and monitor free-tier risks: API/function call quotas, database and
+  egress growth, Supabase inactivity pauses, Resend daily/monthly limits, delayed
+  activation mail, and exhausted backup storage/build minutes. Stop or defer
+  affected operations when limits are reached; never silently upgrade.
 - [ ] Re-verify forced RLS, zero direct commerce-table access for
   `anon`/`authenticated`, Auth restrictions, production SMTP, alerts, and
   provider capacity before launch.
@@ -144,6 +163,9 @@ Official Supabase sources:
 
 - [Production checklist](https://supabase.com/docs/guides/deployment/going-into-prod)
 - [Database backups and PITR](https://supabase.com/docs/guides/platform/backups)
+- [Supabase pricing](https://supabase.com/pricing)
+- [Free-project pausing](https://supabase.com/docs/guides/platform/free-project-pausing)
+- [Resend pricing](https://resend.com/pricing)
 
 ### 7. Cloudflare least privilege and stable edge
 

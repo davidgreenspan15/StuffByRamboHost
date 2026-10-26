@@ -31,3 +31,9 @@ User authorized commit and push. Source is prepared on `codex/gesture-flow-comme
 Codex independently reran 59 backend tests/typecheck, 6 proxy tests/typecheck, 11 policy database cases, three purchase database phases, and storefront/header validation. Desktop counterpart passed 159 Python tests. Opus final source-publication review is tracked in the local handoff; this is not production launch approval.
 
 Source checkpoint 2026-10-26T20:45:47+00:00: Opus final review cleared source publication after private-evidence and local-settings exclusions; Codex verified the exact staged tree. Source commit `4aefb2bbdd3b0bedc8fd089f1e8c7b280c6663ef`; branch push does not merge main or deploy.
+
+## SEC-003 / OPS-003 / LIC-003 follow-up — 2026-10-26
+
+Codex integrated native reviewer fixes for device-key binding, request streaming, desktop clock/HUD safety and outage retries. Native payment reviewer supplied backup/restore and operations scripts; lead independently inspected restore isolation and Keychain handling. User reserved final Fable review, so no new Opus assignment was started. Current policy revision2026-10-13 was reread. Native delegation covered two of three initial audit slices; this is not an engineering-effort percentage.
+
+66 backend tests/typecheck, 7 proxy tests/typecheck, prior SQL security/race/environment and11 policy cases, scoped storefront/header validation pass. App counterpart has171 passing tests and signed/notarized build47. Both hosted logical backup restores passed; managed Auth ownership blocks the unattended role. Source/backend deployment is distinct from final production routing, webhook, inbox, monitoring and app acceptance. No live transaction or public app release. Source commit: PENDING.

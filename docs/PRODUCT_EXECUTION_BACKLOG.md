@@ -27,3 +27,8 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 ## Later
 
 - [ ] **BILLING-001** — **P2** — **Later** — Design any future subscription as a separate explicit opt-in without changing existing perpetual v3 entitlements.
+
+## October 26 security and free-plan checkpoint
+
+- [ ] **SEC-003** — **P1** — **Now** — Device-key binding, bounded uploads and patched tooling deployed to isolated backends/proxy; 66 backend and 7 proxy tests pass. Native hardening has 171 passing tests and a notarized build47 candidate. Final hosted production/app acceptance remains pending. `(in-progress; source and isolated deployment verified)`
+- [ ] **OPS-003** — **P1** — **Now** — Supabase Free, Resend base/free and existing free hosting only; no new recurring charge, automatic paid overage or carbon. Manual encrypted backup restores pass; unattended backup and independent monitoring remain open. `(in-progress; owner cost constraint verified)`

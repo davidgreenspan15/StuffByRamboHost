@@ -1,0 +1,19 @@
+{
+  "name": "Gesture Flow immutable page delivery",
+  "description": "Preserve reviewed commerce and legal HTML without injected scripts or rewriting.",
+  "rules": [
+    {
+      "ref": "sbr_commerce_immutable_html_v1",
+      "enabled": true,
+      "expression": "(http.host in {\"stuffbyrambo.com\" \"www.stuffbyrambo.com\"}) and (lower(http.request.uri.path) in {\"/gesture-flow\" \"/license\" \"/legal\"} or starts_with(lower(http.request.uri.path), \"/gesture-flow/\") or starts_with(lower(http.request.uri.path), \"/license/\") or starts_with(lower(http.request.uri.path), \"/legal/\"))",
+      "action": "set_config",
+      "action_parameters": {
+        "email_obfuscation": false,
+        "rocket_loader": false,
+        "disable_rum": true,
+        "disable_zaraz": true,
+        "automatic_https_rewrites": false
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CommerceConfig } from "../../_shared/config.ts";
-import { ApiError } from "../../_shared/http.ts";
+import { ApiError, readBoundedText } from "../../_shared/http.ts";
 import {
   minimalStripeEvent,
   processStripeEventById,
@@ -19,14 +19,7 @@ export async function stripeWebhook(
   client: SupabaseClient,
   request: Request,
 ): Promise<Record<string, unknown>> {
-  const declaredLength = Number(request.headers.get("content-length") ?? 0);
-  if (declaredLength > 1_048_576) {
-    throw new ApiError(413, "request_too_large", "Webhook is too large.");
-  }
-  const raw = await request.text();
-  if (new TextEncoder().encode(raw).length > 1_048_576) {
-    throw new ApiError(413, "request_too_large", "Webhook is too large.");
-  }
+  const raw = await readBoundedText(request, 1_048_576);
   const signature = request.headers.get("stripe-signature") ?? "";
   try {
     await verifyStripeSignature(raw, signature, config.stripeWebhookSecret);

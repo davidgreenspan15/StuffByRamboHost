@@ -91,6 +91,8 @@ def main() -> None:
         assert sql("select count(*) from commerce_claim_purchase_code_emails('test', "
                    "array['buyer@example.test'])") == "0"
         print("PASS: suspended purchase blocks code retry, exchange and email")
+        sql((root / "tests/browser_activation_security.sql").read_text())
+        print("PASS: browser activation rejects active key replacement; recovery and explicit transfer remain valid")
     finally:
         # If start timed out, check the exact temporary cluster before cleanup.
         if start_attempted and not started:

@@ -4,7 +4,7 @@ import {
   type VerifiedDevice,
   verifyDeviceRequest,
 } from "../../_shared/device-auth.ts";
-import { ApiError, readJson } from "../../_shared/http.ts";
+import { ApiError, readBoundedText, readJson } from "../../_shared/http.ts";
 import {
   issuePermit,
   issueRevocation,
@@ -267,6 +267,12 @@ export async function activationResult(
         "device_limit_reached",
         "This license is already active on its maximum number of Macs.",
       );
+    case "device_key_conflict":
+      throw new ApiError(
+        409,
+        "device_key_conflict",
+        "This Mac is already activated with a different device key.",
+      );
     case "entitlement_inactive":
       throw new ApiError(
         403,
@@ -364,7 +370,7 @@ export async function refreshDevice(
     { bucket: "device_refresh.ip", limit: 120, windowSeconds: 600 },
     trustedIpHmac(request),
   );
-  const rawBody = await request.text();
+  const rawBody = await readBoundedText(request);
   let permitJti: string;
   try {
     const parsed = JSON.parse(rawBody) as unknown;
@@ -444,7 +450,7 @@ export async function deactivateCurrentDevice(
     { bucket: "device_deactivate.ip", limit: 30, windowSeconds: 600 },
     trustedIpHmac(request),
   );
-  const rawBody = await request.text();
+  const rawBody = await readBoundedText(request);
   if (rawBody !== "{}") {
     throw new ApiError(
       400,

@@ -44,46 +44,57 @@ const expandedProduct = price.product as Exclude<
   string
 >;
 
-Deno.test("sandbox consent link keeps explicit acceptance and leaves live settings in control", async () => {
+Deno.test("custom consent text is limited to standard sandbox checkout", async () => {
   const originalFetch = globalThis.fetch;
-  const requests: URLSearchParams[] = [];
+  let request: URLSearchParams | undefined;
   globalThis.fetch = (_input, init) => {
-    requests.push(new URLSearchParams(String(init?.body)));
+    request = new URLSearchParams(String(init?.body));
     return Promise.resolve(Response.json({ object: "checkout.session" }));
   };
   try {
     for (const environment of ["test", "live"] as const) {
-      await createStripeCheckout({
-        stripeEnvironment: environment,
-        stripeSecretKey: "fixture",
-        stripeApiVersion: "2025-03-31.basil",
-        stripeManagedPayments: false,
-        stripeAutomaticTax: false,
-        checkoutSuccessUrl:
-          "https://stuffbyrambo.com/gesture-flow/success.html",
-        checkoutCancelUrl:
-          "https://stuffbyrambo.com/gesture-flow/canceled.html",
-      } as CommerceConfig, {
-        checkoutIntentId: "fixture-intent",
-        offerCode: "gesture-flow-v3",
-        priceId: "price_fixture",
-        idempotencyKey: "fixture-idempotency",
-      });
-    }
-    if (
-      requests.some((body) =>
-        body.get("consent_collection[terms_of_service]") !== "required"
-      )
-    ) {
-      throw new Error("Explicit terms acceptance must remain required");
-    }
-    const key = "custom_text[terms_of_service_acceptance][message]";
-    if (
-      !requests[0]?.get(key)?.includes(
-        "https://stuffbyrambo.com/legal/terms.html",
-      ) || requests[1]?.has(key)
-    ) {
-      throw new Error("Sandbox consent override crossed environment boundary");
+      for (const managed of [false, true]) {
+        await createStripeCheckout({
+          stripeEnvironment: environment,
+          stripeSecretKey: "fixture",
+          stripeApiVersion: "2025-03-31.basil",
+          stripeManagedPayments: managed,
+          stripeAutomaticTax: true,
+          checkoutSuccessUrl:
+            "https://stuffbyrambo.com/gesture-flow/success.html",
+          checkoutCancelUrl:
+            "https://stuffbyrambo.com/gesture-flow/canceled.html",
+        } as CommerceConfig, {
+          checkoutIntentId: "fixture-intent",
+          offerCode: "gesture-flow-v3",
+          priceId: "price_fixture",
+          idempotencyKey: "fixture-idempotency",
+        });
+        if (
+          request?.get("consent_collection[terms_of_service]") !== "required"
+        ) {
+          throw new Error("Explicit terms acceptance must remain required");
+        }
+        const key = "custom_text[terms_of_service_acceptance][message]";
+        const customTextExpected = environment === "test" && !managed;
+        if (
+          request.has(key) !== customTextExpected ||
+          (customTextExpected &&
+            !request.get(key)?.includes(
+              "https://stuffbyrambo.com/legal/terms.html",
+            ))
+        ) {
+          throw new Error("Custom terms text crossed checkout mode boundary");
+        }
+        if (
+          request.has("managed_payments[enabled]") !== managed ||
+          request.has("automatic_tax[enabled]") === managed
+        ) {
+          throw new Error(
+            "Managed Payments and automatic tax must remain exclusive",
+          );
+        }
+      }
     }
   } finally {
     globalThis.fetch = originalFetch;

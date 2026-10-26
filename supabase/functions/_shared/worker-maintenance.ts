@@ -13,7 +13,8 @@ export async function runWorkerMaintenance(
   let emailFailed = false;
   try {
     purchaseEmails = await sendEmails(config, client);
-    emailFailed = purchaseEmails.completionFailed > 0;
+    emailFailed = purchaseEmails.failed > 0 || purchaseEmails.uncertain > 0 ||
+      purchaseEmails.completionFailed > 0;
   } catch {
     emailFailed = true;
   }

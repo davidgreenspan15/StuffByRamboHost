@@ -8,7 +8,7 @@
     "deploy:check": "wrangler deploy --dry-run"
   },
   "devDependencies": {
-    "wrangler": "4.110.0"
+    "wrangler": "4.153.0"
   },
   "engines": {
     "node": ">=22"

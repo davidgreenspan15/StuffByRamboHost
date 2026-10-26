@@ -18,6 +18,14 @@ enabled = true
 enabled = true
 port = 54323
 
+# Explicitly disable optional paid storage features. Omitting these blocks can
+# make config push inherit CLI defaults that try to enable them on Free projects.
+[storage.vector]
+enabled = false
+
+[storage.analytics]
+enabled = false
+
 [auth]
 enabled = true
 site_url = "https://stuffbyrambo.com"
@@ -47,6 +55,11 @@ otp_expiry = 3600
 [auth.sms]
 enable_signup = false
 enable_confirmations = false
+
+# Preserve the existing hosted TOTP enrollment and verification settings.
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
 
 [functions.commerce-api]
 verify_jwt = false

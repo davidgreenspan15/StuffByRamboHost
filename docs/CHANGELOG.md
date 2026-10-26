@@ -40,3 +40,9 @@ User authorized commit and push. Source is prepared on `codex/gesture-flow-comme
 Codex independently reran 59 backend tests/typecheck, 6 proxy tests/typecheck, 11 policy database cases, three purchase database phases, and storefront/header validation. Desktop counterpart passed 159 Python tests. Opus final source-publication review is tracked in the local handoff; this is not production launch approval.
 
 Source checkpoint 2026-10-26T20:45:47+00:00: Opus final review cleared source publication after private-evidence and local-settings exclusions; Codex verified the exact staged tree. Source commit `4aefb2bbdd3b0bedc8fd089f1e8c7b280c6663ef`; branch push does not merge main or deploy.
+
+## 2026-10-26 security and free-plan follow-up
+
+- **SEC-003:** Deployed device-key binding and bounded request parsing to the isolated backends and proxy; patched deployment dependencies. 66 backend and 7 proxy tests/typechecks pass. Prepared and deployed route-scoped website headers. Final production acceptance remains pending.
+- **OPS-003:** Supabase Free and Resend free/base are the launch constraint. Paid upgrades, add-ons, automatic overages and carbon remain disabled. Manual encrypted exports and PG17 restore drills passed; unattended backups and external monitoring remain incomplete.
+- **LIC-003 / REL-001:** Managed Payments sandbox checkout, email, current-source activation, reload, offline expiry and replay checks passed. Restricted-key and durable refund-revocation proof are still pending. Sales remain disabled.

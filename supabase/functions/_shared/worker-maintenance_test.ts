@@ -38,15 +38,55 @@ Deno.test("uncertain completion reports failure after retention runs", async () 
   const result = await runWorkerMaintenance(
     {} as CommerceConfig,
     client,
-    async () => ({
-      sent: 1,
-      failed: 0,
-      uncertain: 1,
-      completionFailed: 1,
-    }),
+    () =>
+      Promise.resolve({
+        sent: 1,
+        failed: 0,
+        uncertain: 1,
+        completionFailed: 1,
+      }),
   );
   assert(retained && result.failure === "purchase_email_queue_failed");
   assert(result.purchaseEmails?.sent === 1);
+});
+
+for (const outcome of ["failed", "uncertain"] as const) {
+  Deno.test(`provider ${outcome} delivery reports failure after retention runs`, async () => {
+    let retained = false;
+    const client = {
+      rpc() {
+        retained = true;
+        return Promise.resolve({ data: { removed: 2 }, error: null });
+      },
+    } as unknown as SupabaseClient;
+    const counts = { sent: 0, failed: 0, uncertain: 0, completionFailed: 0 };
+    counts[outcome] = 1;
+    const result = await runWorkerMaintenance(
+      {} as CommerceConfig,
+      client,
+      () => Promise.resolve(counts),
+    );
+    assert(retained && result.retention?.removed === 2);
+    assert(result.failure === "purchase_email_queue_failed");
+    assert(result.purchaseEmails?.[outcome] === 1);
+  });
+}
+
+Deno.test("successful and idle email queues remain healthy", async () => {
+  const client = {
+    rpc() {
+      return Promise.resolve({ data: { removed: 0 }, error: null });
+    },
+  } as unknown as SupabaseClient;
+  for (const sent of [0, 1]) {
+    const result = await runWorkerMaintenance(
+      {} as CommerceConfig,
+      client,
+      () =>
+        Promise.resolve({ sent, failed: 0, uncertain: 0, completionFailed: 0 }),
+    );
+    assert(result.failure === null && result.retention?.removed === 0);
+  }
 });
 
 Deno.test("retention errors remain visible even when email processing succeeds", async () => {
@@ -60,12 +100,13 @@ Deno.test("retention errors remain visible even when email processing succeeds",
     const result = await runWorkerMaintenance(
       {} as CommerceConfig,
       client,
-      async () => ({
-        sent: 1,
-        failed: 0,
-        uncertain: 0,
-        completionFailed: 0,
-      }),
+      () =>
+        Promise.resolve({
+          sent: 1,
+          failed: 0,
+          uncertain: 0,
+          completionFailed: 0,
+        }),
     );
     assert(result.failure === "retention_failed" && result.retention === null);
     assert(result.purchaseEmails?.sent === 1);

@@ -367,7 +367,7 @@ clean checkout at the recorded revision. Never run
 
 ### 6.1 Preflight
 
-1. Enable backups/PITR appropriate to the plan and perform a restore drill.
+1. Follow the explicitly approved Free-only backup plan in section 6.4 and perform its restore drill. Do not enable Pro, PITR, add-ons or paid overage.
 2. Confirm the target project ref and environment aloud with a second reviewer.
 3. Run local function formatting, checks, tests, migration behavior tests, RLS
    cross-account tests, and storefront/Worker tests.
@@ -444,6 +444,113 @@ The current worker claims at most 20 events per invocation and also calls
 Alert if no successful scheduled run occurs for five minutes. Counsel/CPA must
 set separate retention rules for accounts, orders, policy acceptances,
 entitlements, refunds, disputes, audit entries, backups, and deletion requests.
+
+### 6.4 Free-only backups and operational verification (2026-10-26)
+
+Rami explicitly requires **Supabase Free, Resend base/free and no paid add-ons
+or overage**. This supersedes any earlier mandatory Pro/PITR assumption in this
+runbook. Supabase recommends off-site logical exports for Free projects;
+automatic paid-plan backups are not part of this approved setup.
+
+The private `Gesture-Flow` app repository contains
+`.github/workflows/commerce-backup.yml` and `scripts/ops/commerce_backup.py`.
+The workflow is disabled unless `COMMERCE_BACKUP_ENABLED=true`. It runs daily
+at 06:23 UTC only once the workflow exists on the repository default branch.
+Before enabling it, verify the account's remaining included Actions minutes
+and storage and its **zero paid spending allowance**. Free allowances are
+shared across repositories; this workflow does not buy capacity. A missed or
+failed run must alert the owner through Actions notifications/an independent
+monitor and must never trigger a paid upgrade automatically.
+
+- The prepared `commerce_backup` role is intended to have no role memberships,
+  inheritance, permanent create/write/admin privileges or Vault/net/Cron access.
+  **Hosted least-privilege setup is blocked:** rollback-only probes against test
+  and live on 2026-10-26 failed at Auth-owned `schema_migrations` policy creation
+  (`must be owner of table schema_migrations`); `postgres` cannot SET ROLE to
+  `supabase_auth_admin`. Neither probe left a backup role behind. Do not enable
+  the unattended workflow or grant `service_role`/admin access to work around
+  this. `scripts/commerce-backup-grants.sql` remains a prepared script, initially
+  creating `NOLOGIN`; effective PUBLIC privileges also require review.
+- The backup role receives SELECT and explicit SELECT-only RLS policies on
+  `public`, `auth` and `supabase_migrations`. `pg_dump --enable-row-security`
+  exports these schemas with ACLs; preflight rejects missing read policies,
+  write privileges, accessible SECURITY DEFINER routines, unsafe schema access,
+  or excessive role attributes/memberships. New tables require review and
+  rerunning the grants script.
+- GitHub Actions receives only the dedicated connection credential and the
+  **public** age recipient. The private age identity remains in macOS Keychain.
+  `pg_dump` streams directly into age; no plaintext database archive is written
+  to runner disk, logs or artifacts. Provider/subprocess errors are reduced to
+  fixed error codes. TLS verifies the endpoint certificate.
+- Each encrypted archive is capped at **20 MiB** and retained for **7 days**.
+  One daily successful run uses at most approximately 140 MiB across seven
+  retained archives, plus small manifests. Manual reruns/retries also count;
+  account-wide usage must remain inside the shared free quota. The ten-minute
+  job timeout bounds runtime; actual included usage must be checked.
+- Archives contain Auth data, commerce data/schema/security ACLs and migration
+  history. They exclude Vault/root encryption keys, provider project settings,
+  Edge Function secrets, custom role passwords, scheduler state and Storage
+  object bytes. Restore those separately from approved native/provider sources.
+  If Auth gains encrypted columns requiring a provider root key, use the
+  documented Supabase root-key migration procedure; a logical archive alone
+  cannot prove Auth service recovery.
+- `scripts/ops/commerce_restore_drill.py` only creates a new private Unix-socket
+  PostgreSQL cluster. It accepts no existing destination URL, verifies archive
+  integrity, retrieves the age identity from Keychain, restores schema/data,
+  and checks commerce RLS/browser table/RPC restrictions. The identity reaches
+  age through standard input; it is never written to disk. The private cluster
+  is deleted after verification. PostgreSQL binaries must match the archived
+  server major (both hosted projects currently use **17**).
+  **Actual PG17 manual encrypted exports and local restore drills passed on
+  2026-10-26:** test contained two orders, one Auth user, three entitlements and
+  four activations (358,616 encrypted bytes); live contained zero rows in those
+  four tables (344,328 bytes). Source/restored counts matched. Both restored all
+  23 commerce tables with forced RLS and zero browser table/RPC grants.
+  Archives and sanitized evidence remain in the private production setup
+  directory's `encrypted-backups/`; no customer data was uploaded or printed.
+  This used the approved manual admin export fallback, **not the blocked
+  unattended role**. A logical drill is distinct from hosted Auth/SMTP/function
+  recovery or a verified daily backup schedule.
+- The current native age identity is in Keychain service
+  `codex.gesture-flow.commerce-backup.age-v2`, account `ramigreenspan`. Its owning
+  helper `store-backup-key-v2` and hash/locator record are in the private
+  production setup directory. Preserve that exact helper binary: rebuilding
+  can change Keychain access identity. Its `read` output is secret and must only
+  be captured privately or piped to age. The earlier unused key was preserved;
+  it protects no archives. Do not place the identity in GitHub credentials.
+- Supabase's pooler requires its provider root CA for `verify-full`; the system
+  CA bundle did not validate it. The verified public certificate is saved as
+  `supabase-prod-ca-2021.crt` in the private setup directory. The prepared
+  workflow must receive the appropriate public CA before activation; do not
+  weaken TLS validation to make it connect.
+- Daily export has a roughly 24-hour recovery point only while every daily run
+  succeeds. GitHub schedules can be delayed and Free Supabase can pause or hit
+  resource limits. Provider availability and capacity are not guaranteed by
+  this backup. Do not claim zero data loss or paid-plan availability.
+
+Scheduler setup is prepared in `scripts/commerce-ops-install.sql`, using
+pg_cron/pg_net and two Vault entries (`gesture_flow_project_url` and
+`gesture_flow_cron_secret`). Invoke with `psql -v job_name=gesture-flow-live-worker`
+for live or `gesture-flow-test-worker` to adopt the existing test job; the stable
+job name updates the schedule rather than creating another job. Inspect the
+existing Vault names and migrate/reference them deliberately before applying.
+No secret value belongs in SQL source or the cron command. pg_net temporarily
+stores the decrypted request header in its queue: verify effective queue/schema
+permissions before creating another database login.
+
+`scripts/commerce-ops-health.py --job-name gesture-flow-live-worker` reads only
+aggregate queue/scheduler/email health through the supplied libpq connection.
+It exits 2 for a missing successful worker response within five minutes, stale
+leases, old pending work, dead letters, or failed/uncertain email work. It emits
+no customer rows or credentials. **Poll it from outside the same Supabase Cron**
+to detect a stopped scheduler; a job cannot prove its own scheduler is alive.
+External polling/notification delivery and actual production scheduled success
+must be separately verified. No monitoring service or email was enabled by
+preparing these files.
+
+Sources checked: [Supabase backups](https://supabase.com/docs/guides/platform/backups),
+[logical backup/restore](https://supabase.com/docs/guides/platform/migrating-within-supabase/backup-restore),
+[scheduled Edge Functions](https://supabase.com/docs/guides/functions/schedule-functions).
 
 ## 7. Cloudflare facade, domain, WAF, and headers
 

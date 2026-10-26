@@ -50,7 +50,11 @@ const FORWARDED_RESPONSE_HEADERS = new Set([
 ]);
 
 export default {
-  async fetch(request: Request, env: Env, _context: WorkerContext): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    _context: WorkerContext,
+  ): Promise<Response> {
     const requestId = crypto.randomUUID();
     try {
       validateEnvironment(env);
@@ -74,24 +78,26 @@ export async function proxyRequest(
   requestId: string = crypto.randomUUID(),
 ): Promise<Response> {
   const publicUrl = new URL(request.url);
-  if (publicUrl.pathname !== PUBLIC_PREFIX && !publicUrl.pathname.startsWith(`${PUBLIC_PREFIX}/`)) {
+  if (
+    publicUrl.pathname !== PUBLIC_PREFIX &&
+    !publicUrl.pathname.startsWith(`${PUBLIC_PREFIX}/`)
+  ) {
     throw new ProxyError(404, "not_found");
   }
   if (!new Set(["GET", "POST", "DELETE", "OPTIONS"]).has(request.method)) {
     throw new ProxyError(405, "method_not_allowed");
   }
 
-  const contentLength = parseContentLength(request.headers.get("content-length"));
+  const contentLength = parseContentLength(
+    request.headers.get("content-length"),
+  );
   if (contentLength !== null && contentLength > MAX_BODY_BYTES) {
     throw new ProxyError(413, "request_too_large");
   }
 
   let body: ArrayBuffer | undefined;
   if (request.method !== "GET" && request.method !== "OPTIONS") {
-    body = await request.arrayBuffer();
-    if (body.byteLength > MAX_BODY_BYTES) {
-      throw new ProxyError(413, "request_too_large");
-    }
+    body = await boundedBody(request);
   }
 
   const upstreamBase = normalizedUpstreamUrl(env.SUPABASE_FUNCTION_URL);
@@ -99,8 +105,14 @@ export async function proxyRequest(
   const headers = filteredHeaders(request.headers, FORWARDED_REQUEST_HEADERS);
   headers.set("X-GF-Proxy-Secret", env.UPSTREAM_PROXY_SECRET);
   headers.set("X-GF-Request-ID", requestId);
-  headers.set("X-GF-Client-IP-HMAC", await clientIpHmac(request, env.IP_HASH_SECRET));
-  headers.set("X-GF-Client-Country", normalizedCountry(request.headers.get("CF-IPCountry")));
+  headers.set(
+    "X-GF-Client-IP-HMAC",
+    await clientIpHmac(request, env.IP_HASH_SECRET),
+  );
+  headers.set(
+    "X-GF-Client-Country",
+    normalizedCountry(request.headers.get("CF-IPCountry")),
+  );
 
   const upstreamResponse = await fetch(upstreamUrl, {
     method: request.method,
@@ -109,9 +121,15 @@ export async function proxyRequest(
     redirect: "manual",
   });
 
-  const responseHeaders = filteredHeaders(upstreamResponse.headers, FORWARDED_RESPONSE_HEADERS);
+  const responseHeaders = filteredHeaders(
+    upstreamResponse.headers,
+    FORWARDED_RESPONSE_HEADERS,
+  );
   responseHeaders.set("Cache-Control", "no-store");
-  responseHeaders.set("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'");
+  responseHeaders.set(
+    "Content-Security-Policy",
+    "default-src 'none'; frame-ancestors 'none'",
+  );
   responseHeaders.set("Referrer-Policy", "no-referrer");
   responseHeaders.set("X-Content-Type-Options", "nosniff");
   responseHeaders.set("X-Frame-Options", "DENY");
@@ -122,6 +140,34 @@ export async function proxyRequest(
     statusText: upstreamResponse.statusText,
     headers: responseHeaders,
   });
+}
+
+async function boundedBody(request: Request): Promise<ArrayBuffer> {
+  if (!request.body) return new ArrayBuffer(0);
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let length = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      length += value.byteLength;
+      if (length > MAX_BODY_BYTES) {
+        await reader.cancel();
+        throw new ProxyError(413, "request_too_large");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const result = new Uint8Array(length);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return result.buffer;
 }
 
 export class ProxyError extends Error {
@@ -153,7 +199,8 @@ function normalizedUpstreamUrl(value: string): URL {
     throw new ProxyError(503, "service_not_configured");
   }
   if (
-    url.protocol !== "https:" || url.username || url.password || url.port || url.search ||
+    url.protocol !== "https:" || url.username || url.password || url.port ||
+    url.search ||
     url.hash || !ALLOWED_SUPABASE_FUNCTION_URLS.has(url.href)
   ) {
     throw new ProxyError(503, "service_not_configured");
@@ -169,7 +216,9 @@ export function buildUpstreamUrl(upstreamBase: URL, publicUrl: URL): URL {
 function filteredHeaders(source: Headers, allowlist: Set<string>): Headers {
   const result = new Headers();
   for (const [name, value] of source) {
-    if (name.toLowerCase() !== "set-cookie" && allowlist.has(name.toLowerCase())) {
+    if (
+      name.toLowerCase() !== "set-cookie" && allowlist.has(name.toLowerCase())
+    ) {
       result.append(name, value);
     }
   }
@@ -212,8 +261,15 @@ async function clientIpHmac(request: Request, secret: string): Promise<string> {
     false,
     ["sign"],
   );
-  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(ip));
-  return Array.from(new Uint8Array(signature), (byte) => byte.toString(16).padStart(2, "0")).join(
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(ip),
+  );
+  return Array.from(
+    new Uint8Array(signature),
+    (byte) => byte.toString(16).padStart(2, "0"),
+  ).join(
     "",
   );
 }

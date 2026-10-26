@@ -155,6 +155,48 @@ export function optionsResponse(
   return new Response(null, { status: 204, headers });
 }
 
+export async function readBoundedText(
+  request: Request,
+  maxBytes = 16_384,
+): Promise<string> {
+  const declared = request.headers.get("content-length");
+  if (declared !== null && !/^\d{1,10}$/.test(declared)) {
+    throw new ApiError(
+      400,
+      "invalid_content_length",
+      "Content length is invalid.",
+    );
+  }
+  if (declared !== null && Number(declared) > maxBytes) {
+    throw new ApiError(413, "request_too_large", "Request is too large.");
+  }
+  if (!request.body) return "";
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let length = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      length += value.byteLength;
+      if (length > maxBytes) {
+        await reader.cancel();
+        throw new ApiError(413, "request_too_large", "Request is too large.");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const result = new Uint8Array(length);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(result);
+}
+
 export async function readJson(
   request: Request,
   maxBytes = 16_384,
@@ -168,14 +210,7 @@ export async function readJson(
       "Content-Type must be application/json.",
     );
   }
-  const declaredLength = Number(request.headers.get("content-length") ?? 0);
-  if (declaredLength > maxBytes) {
-    throw new ApiError(413, "request_too_large", "Request is too large.");
-  }
-  const raw = await request.text();
-  if (new TextEncoder().encode(raw).length > maxBytes) {
-    throw new ApiError(413, "request_too_large", "Request is too large.");
-  }
+  const raw = await readBoundedText(request, maxBytes);
   try {
     const parsed = JSON.parse(raw) as unknown;
     if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
