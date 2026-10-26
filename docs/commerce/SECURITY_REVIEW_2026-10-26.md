@@ -68,4 +68,4 @@ The separate Swift Native testing lock does not enforce this paid licensing syst
 Attribution: Codex coordinated/integrated/verified; native payment reviewer audited
 commerce and authored the SQL regression/fix; native app reviewer independently
 reviewed streaming limits. Final cross-review found no blocking regression. User
-reserved a later Fable review; no new Opus job. Commit ref: PENDING.
+reserved a later Fable review; no new Opus job. Commit ref: `030a1187ef0b7fbaf4a0f3c8ee0598ace868de76`.
