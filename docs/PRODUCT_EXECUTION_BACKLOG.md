@@ -4,8 +4,8 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 ## Now
 
-- [x] **LIC-003** — **P0** — **Now** — Restricted test payment/refund and durable revocation, isolated production routing, portal and real native trial verified. Live sales remain disabled. `(cloud-done 2026-10-27; disabled-sales preparation)`
-- [ ] **REL-001** — **P0** — **Now** — Production site/policies and corrected signed/notarized build49 verified; private43-to49 update preserves access. Test-key cleanup and Fable review complete; final publication remains. `(in-progress 2026-10-27; preparation complete, public release pending)`
+- [x] **LIC-003** — **P0** — **Now** — Restricted test payment/refund and native acceptance verified; live sales and purchase-code fulfillment enabled. First genuine sale remains an operating verification limit. `(cloud-done 2026-10-27; released)`
+- [x] **REL-001** — **P0** — **Now** — Accepted3.2.29/build49 published; public installer checksum, signed feed, storefront and live offer verified. `(cloud-done 2026-10-27; public release)`
 
 - [x] **LIC-001** — **P0** — **Now (private tests only)** — Add purchase-triggered short-lived activation email, test-recipient/sending guards, paid-test entitlement checks and native code entry using the existing signed device permit. Prior two-Mac concurrency, denial/retry and local restart tests pass. Review follow-up adds isolated email maintenance, conservative batch completion, neutral shared email copy and a real exchange test; 44 Deno tests pass. Current-sandbox DB rerun is blocked by shared-memory restrictions. See `docs/commerce/PRIVATE_ACTIVATION_CODES.md`; hosted configuration, mail, deployment and signed-app end-to-end verification remain pending. `(local-done 2026-10-26)`
 - [x] **LIC-002** - **P0** - **Now (private tests only)** - Single-use purchase codes, one Mac per paid order and two-Mac trials: hosted setup and complete private sandbox E2E passed. Two real hosted sandbox checkouts, Resend delivery, native signed-app activation/restart, replay/resend rules, trial cap/deactivation, exact-order full refunds and signed revocation verified. Three integration fixes deployed; 54 Deno tests/typecheck pass. Original Mac state restored. See `docs/commerce/VALIDATION_SUMMARY.md`. Public policy/copy, live setup, website publication and release remain separate gates. `(cloud-done 2026-10-26; private test only)`
@@ -30,7 +30,7 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 ## October 26 security and free-plan checkpoint
 
-- [ ] **SEC-003** — **P1** — **Now** — Backend security fixes deployed; corrected build49 native/update acceptance passed. Exposed test-key rotation and final Fable review complete; no reported launch blocker after live0004 confirmation. `(in-progress 2026-10-27; review-done; residual limits recorded)`
+- [x] **SEC-003** — **P1** — **Now** — Security fixes, native/update acceptance, key rotation and Fable review complete; no launch blocker. Residuals/PY-SEC-002 retained. `(cloud-done 2026-10-27; reviewed release)`
 - [x] **OPS-003** — **P1** — **Now** — Supabase Free, Resend free/base and Workers Free confirmed; independent alerts and unattended encrypted iCloud backup plus restore verified. Existing free quotas/Mac availability remain operating limits; no paid upgrade or overages. `(cloud-done 2026-10-27; disabled-sales preparation)`
 
 ## Production integration checkpoint — 2026-10-26
@@ -69,3 +69,11 @@ SEC-003 | P1 | Now | review-done: Fable job31529244-792f-48d8-959c-ba6218b56e0d,
 REL-001 | P0 | Now | preparation/review complete; public release pending. Candidate49 unchanged; no new build, broad test campaign, sale, public appcast or paid upgrade. App source47c57b1; credential-evidence commit81b31b2. Coordinator owns integration/provider checks; Fable owns independent final review. Policy revision2026-10-13.
 
 Next: PY-SEC-002 | P2 | Next | proposed: consider refresh-response replay hardening that preserves a monotonic signed-time floor, including repeated equal-iat responses and online clock recovery. Requires a separate reviewed change and candidate rebuild; not counted as fixed by the suggested older-iat check alone.
+
+## Public release complete — 2026-10-27
+
+REL-001 / SEC-003 | P0/P1 | Now | cloud-done: owner authorized release. Gesture Flow3.2.29/build49 published at https://github.com/davidgreenspan15/GestureFlowMacApp/releases/tag/python-v3.2.29. Public download matches the accepted signed/notarized installer: SHA-256 `505aa95a98d53fbcd5515fba750631aa6984ca5c3bdcf89cc852d20a5527453f`,114313993 bytes. Signed Python feed commit `fe6d1af2d9fad5b6b03270a16b904f1ebc65da6d`; accepted source `47c57b1e50451d89d5f6542fdd2c3e3cf735ef79`. App preparation pushed to main at `f8b45c6`; storefront commit `aa21f39aa8603bcde99b4330c52dd4b923c0d3c7`, Pages run40549195882 succeeded. Browser verifies download3.2.29 and $14 price at https://stuffbyrambo.com/gesture-flow/.
+
+Live purchase-code and email runtime flags verified true with no canary restriction. Database purchase-code gate and reviewed USD1400 live offer enabled atomically at2026-10-27T17:18:39Z, preserving one paid Mac/two trial Macs and active policy. Public catalog published/available/purchaseAvailable true; health true. Test offer/webhook remain disabled. Free-plan constraints unchanged. No real-money test purchase; first genuine-sale fulfillment and live dispute-event delivery remain operating verification limits. Prior Fable residuals, including PY-SEC-002, remain recorded.
+
+Scoped commerce validator passed10 primary pages. Broad validator reported11 pre-existing CSP omissions in unrelated Android/design/template files, not a release regression. No new app build or repeated acceptance; older feed item retained. Native Swift lane unchanged. Coordinator released; operations_readiness independently checked gates; final Fable review retained. Team policy revision2026-10-13.
