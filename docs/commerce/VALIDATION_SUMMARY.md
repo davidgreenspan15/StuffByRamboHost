@@ -1,63 +1,49 @@
 # Commerce validation and release status
 
-Verified October 26, 2026. This is source preparation; public sales remain disabled.
+Updated October 27, 2026. Production integration and the focused licensing checks below are verified. Sales and candidate public release remain disabled. Fable's final bypass-security review has not run; corrected build49 and private installed-update acceptance passed. Exposed sandbox-key rotation remains unresolved.
 
-## Executed checks
+## Executed source and isolated checks
 
-- 66 backend Deno tests and function typechecking passed.
-- 8 Cloudflare proxy tests and typechecking passed; deployment tooling audit reports zero advisories.
-- Disposable PostgreSQL purchase-code checks passed, including the concurrent redemption race and refund/environment isolation.
-- 11 disposable PostgreSQL policy-publication cases passed, including rerun safety and rollback on conflicts.
-- Storefront validation passed for 10 primary pages and the scoped commerce/policy surface.
-- Security-header validation passed 18 host/path cases and coverage of 16 pages. The route-scoped response headers and immutable-page settings are now deployed; public probes confirm CSP, frame denial and nosniff on the commerce routes, which still return 404 before site publication.
-- The separate desktop project passed 171 Python tests, including release-publication guards and bounded outage retries.
+- Latest recorded backend run: 69 Deno tests and function typechecks passed.
+- Eight Cloudflare proxy tests, typecheck and dry build passed; the recorded deployment-tooling audit reported zero advisories.
+- Disposable PostgreSQL purchase-code checks passed, including concurrent redemption and refund/environment isolation. Eleven policy-publication cases passed, including rerun safety and conflict rollback.
+- Scoped storefront validation passed. Security-header validation covered 18 host/path cases and 16 pages; deployed commerce headers include CSP, frame denial and nosniff.
+- Ten isolated PostgreSQL health cases and thirteen local backup guard cases passed. Actual temporary-server termination verified restore cleanup. These checks do not replace cloud upload or recovery evidence.
+- The separate desktop project previously passed 171 Python tests, including release-publication guards and bounded outage retries. The signing correction passed42 focused release/signing checks, and the dependency preflight passed10 focused build checks. Both received independent review; final artifact/native/update evidence is below.
 
-The earlier hosted Standard Stripe sandbox exercise verified checkout, signed webhook processing, email delivery, signed native app activation/restart, single-use codes, resend behavior, device limits, deactivation, and exact-order refund/revocation. Original local application state was restored after testing. Detailed provider identifiers and owner-specific operational evidence are retained privately, outside this public source tree.
+Historical test counts describe their recorded source milestone. They do not establish a later binary's acceptance.
 
-## Remaining launch requirements
+## Restricted-key and production integration acceptance
 
-The latest backend functions and key-binding migration are deployed to both isolated projects. A Managed Payments sandbox checkout completed through the real backend; email, current-source activation, reload, bounded offline use and code replay rejection passed. Its test refund succeeded at Stripe; durable signed-revocation evidence must be repeated. This exercise used the existing sandbox credential, so equivalently restricted-key acceptance is still pending.
+Fresh Stripe live/sandbox and Supabase connector access was verified. The approved restricted sandbox backend key completed a real hosted Managed Payments test checkout. Payment, signed webhook fulfillment, owner email, isolated current-source activation/reload, bounded offline use and consumed-code rejection passed. Full test refund produced durable verified signed revocation and a locked reload. This closes the earlier missing-revocation-output and restricted-key gates. No real-money test purchase occurred; test checkout and webhook were disabled afterward.
 
-Supabase Free and Resend Transactional Free were verified with paid overages disabled. Manual encrypted exports and PostgreSQL 17 restore drills passed for both environments, preserving 23 protected commerce tables and zero direct browser table/RPC grants. Unattended backup setup remains blocked by managed Auth ownership restrictions; no workflow or paid backup service was activated. Cloudflare zone Free was verified; account-level Workers billing remains unverified.
+The stable proxy uses the three matching live bindings and production permit key. The pinned live webhook is enabled with the eleven supported event types. The live offer and purchase-code release gates remain disabled. Reviewed personal-use policies were published and all eight canonical/immutable byte comparisons passed. Candidate download links remain withheld. Earlier references to unpublished policy routes returning 404 or a disabled live webhook describe superseded preparation states.
 
-Production SMTP passed a real inbox and one-time token verification; replay was rejected and the test session was signed out. The live webhook is configured at the tested API version and remains disabled until routing cutover; its temporary setup key was revoked. Scheduled processing is installed and its first automatic run passed, with no failed or stuck event/email work reported. Independent alerts, public policy publication, production routing, browser portal acceptance, app activation/update acceptance and final checkout enablement remain separate gates. The signed, notarized and stapled 3.2.29 build47 candidate has not been publicly released. Public sales remain disabled.
+Actual production owner sign-in passed through the published portal. On October 27 the owner started the real 14-day production trial; signed 3.2.29 build 47 activated and retained access after quit/relaunch. The guarded test restored and verified the original Keychain records, app files and preferences exactly; the installed original app remains unchanged. Portal deactivation of the test device was verified with zero occupied slots. The account's real trial start remains intact.
 
-Source commits on the preparation branch do not deploy Supabase or Cloudflare, update the website's deployment branch, publish an appcast or enable sales. Historical completed tests establish only their stated environment and version.
+## Free operations acceptance
 
-## Review
+Supabase Free and Resend Transactional Free/base allowance were verified with paid overages disabled. Authenticated Chrome account Billing/Subscriptions readback confirmed Workers Free Active and zone Free Plan Active, closing the earlier API billing-visibility gap. No plan or payment setting was changed.
 
-Claude Opus supplied implementation and review of licensing environment isolation and release guards. Codex integrated the work and reran the checks above. No production readiness or legal/tax professional review is implied by this source milestone.
+Minutely worker and health snapshot scheduling are verified. Public health exposes only a boolean with no-store. The enabled fifteen-minute GitHub monitor's deliberate failure run `40416568422` delivered an owner inbox notification; normal run `40416708850` passed afterward. Monitored health passed following the latest verified backup. No production outage was injected.
 
+Encrypted test/live exports and PostgreSQL 17 restore drills passed. A live encrypted iCloud archive was additionally downloaded again, hash-verified and restored with expected row counts/security checks. The installed daily LaunchAgent then completed a fresh encrypted export/upload and private health update under launchd: run 4 exited zero at `2026-10-27T15:30:06.721579Z`. Bounded retry resolved temporary iCloud upload errors without permission changes. This closes the earlier unattended-access blocker; the Mac, available Keychain, cloud quota and missed-schedule risks remain operating limits. No broad database backup role or administrator credential was placed in CI. See [free operations evidence](FREE_OPERATIONS_READINESS_2026-10-26.md).
 
-## Restricted-key and production routing acceptance — October 26
+## Corrected candidate and installed update — complete
 
-Both Stripe live/sandbox connectors and both Supabase projects are accessible.
-The approved restricted sandbox key completed Managed Payments checkout through
-the real backend. Payment, signed webhook fulfillment, owner activation email,
-one-Mac activation, reload, bounded offline access, and rejection of code reuse
-passed. Full sandbox refund produced a verified signed revocation; reload stayed
-locked. Durable sanitized evidence was retained privately. No live payment or
-installed application state change occurred.
+Corrected Python **3.2.29 build49** is the accepted private candidate. Explicit inside-out signing confines provisioning/Keychain entitlements to the main app and preserves Sparkle Downloader's own rights. A production preflight now rejects stale or missing runtime/packaging pins in the selected interpreter. All209 native files passed the entitlement gate; packaged cryptography50.0.2 and Pillow13.0.0 were independently read from metadata/the Python archive. The existing patched Python3.12 environment satisfied all7 active pins.
 
-The test offer and test webhook were disabled before stable API cutover. The
-reviewed Cloudflare proxy now uses all three matching live bindings. Public
-verification returns the production permit key and an unavailable catalog; live
-orders remain zero. The pinned live webhook is enabled with the exact eleven
-supported event types. Public sales and purchase-code release gates remain off.
+Apple notarization accepted submission `117bbbb2-b3d8-4417-a0c1-b19993bb343c`. App/DMG tickets, deep strict signature and both Gatekeeper assessments passed. Final DMG is114313993bytes, SHA-256`505aa95a98d53fbcd5515fba750631aa6984ca5c3bdcf89cc852d20a5527453f`. The original production public-key map matches the embedded map.
 
-The prepared, previously unpublished October terms now match the approved
-personal-use product; canonical/immutable bytes, manifest and SQL assertions were
-updated together. Eleven isolated publication/rollback checks passed. Historical
-July policy bytes were preserved. Download links are held closed until candidate
-release acceptance; the older public installer is not presented as this candidate.
+On this exact build, production owner trial activation and quit/relaunch passed with the existing November10 expiry. The main app and HUD child ran normally; isolated helper startup/EOF shutdown passed with no injected visual events. The real Sparkle flow updated a private copy of installed build43 to49, validated the signed download, installed/relaunched, and retained trial access. The updated executable matches the candidate; its strict signature passes. The actual `/Applications` build43 remains untouched.
 
-Current checks: 69 backend tests/typechecks, 8 proxy tests/typecheck and dry build,
-11 policy database scenarios, scoped storefront validation. Production health
-source was independently reviewed; actual schedule/notification evidence follows.
-One encrypted live backup was uploaded to existing iCloud storage, downloaded,
-hash-verified and restored successfully. Unattended Mac execution is not yet
-accepted; Mac availability, Keychain access and cloud quota remain operating limits.
+All original native Keychain records, app files and preferences were restored and readback-verified. The temporary local update server stopped; the temporary feed preference was removed. Final test-device deactivation returned zero occupied slots. Server-side trial start intentionally remains; no trial reset or live test payment occurred.
 
-A native browser accessibility read unexpectedly exposed two sandbox API keys.
-Owner rotation was requested, with no values retained in this report. Production
-keys were not exposed by that read. Credential cleanup remains a readiness gate.
+## Remaining review and publication boundaries
+
+- Exposed sandbox credential cleanup is unconfirmed. The old stored restricted key still returned HTTP 200 on October 27. Rami has asked about completing rotation; the browser credential-change handoff policy applies. Verify replacement configuration and old-key rejection without disclosing values. No live key was exposed.
+- Fable has not performed the requested final review for licensing/security bypasses. The [final-review handoff](FABLE_FINAL_REVIEW_2026-10-26.md) identifies completed evidence and the accepted corrected candidate.
+- Installed Sparkle update acceptance passed on the private43-to49 path. No new broad hardware/permission test campaign was performed or added to the review gate.
+- Sales enablement, public candidate appcast/release and final launch approval remain separate. Existing public feed and candidate release state are unchanged. No real-money test transaction, paid upgrade, recurring charge, automatic paid overage or carbon contribution is authorized.
+
+Claude Opus supplied earlier licensing-isolation and release-guard implementation/review. Codex integrated and verified the recorded checks; native peers reviewed bounded operational and candidate work. Team/model policy revision 2026-10-13 was reread for this update; the user reserves Fable's final review and requested no new Opus assignment. This evidence summary is neither final security approval nor legal/tax professional review.

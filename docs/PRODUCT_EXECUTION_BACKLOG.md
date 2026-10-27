@@ -4,8 +4,8 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 ## Now
 
-- [ ] **LIC-003** — **P0** — **Now** — Production purchase-code support with explicit live gates, unchanged sandbox recipient restrictions, database isolation and regression tests. Opus implementation integrated and independently verified (59 Deno, three PG phases). Migration applied to empty live project with gate off; functions/provider activation remain pending. See production preparation checkpoint. `(local-done; cloud-pending 2026-10-26)`
-- [ ] **REL-001** — **P0** — **Now** — Prepare one-Mac versioned policies, production hosting/account configuration, public storefront/portal, and notarized Python release. User approved preparation/launch workflow; financial/provider consent gates and final Git publication remain explicit. `(in-progress 2026-10-26)`
+- [x] **LIC-003** — **P0** — **Now** — Restricted test payment/refund and durable revocation, isolated production routing, portal and real native trial verified. Live sales remain disabled. `(cloud-done 2026-10-27; disabled-sales preparation)`
+- [ ] **REL-001** — **P0** — **Now** — Production site/policies and corrected signed/notarized build49 verified; private43-to49 update preserves access. Test-key cleanup, Fable review and final publication remain. `(in-progress 2026-10-27; preparation complete, public release pending)`
 
 - [x] **LIC-001** — **P0** — **Now (private tests only)** — Add purchase-triggered short-lived activation email, test-recipient/sending guards, paid-test entitlement checks and native code entry using the existing signed device permit. Prior two-Mac concurrency, denial/retry and local restart tests pass. Review follow-up adds isolated email maintenance, conservative batch completion, neutral shared email copy and a real exchange test; 44 Deno tests pass. Current-sandbox DB rerun is blocked by shared-memory restrictions. See `docs/commerce/PRIVATE_ACTIVATION_CODES.md`; hosted configuration, mail, deployment and signed-app end-to-end verification remain pending. `(local-done 2026-10-26)`
 - [x] **LIC-002** - **P0** - **Now (private tests only)** - Single-use purchase codes, one Mac per paid order and two-Mac trials: hosted setup and complete private sandbox E2E passed. Two real hosted sandbox checkouts, Resend delivery, native signed-app activation/restart, replay/resend rules, trial cap/deactivation, exact-order full refunds and signed revocation verified. Three integration fixes deployed; 54 Deno tests/typecheck pass. Original Mac state restored. See `docs/commerce/VALIDATION_SUMMARY.md`. Public policy/copy, live setup, website publication and release remain separate gates. `(cloud-done 2026-10-26; private test only)`
@@ -30,8 +30,8 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 
 ## October 26 security and free-plan checkpoint
 
-- [ ] **SEC-003** — **P1** — **Now** — Device-key binding, bounded uploads and patched tooling deployed to isolated backends/proxy; 66 backend and 7 proxy tests pass. Native hardening has 171 passing tests and a notarized build47 candidate. Final hosted production/app acceptance remains pending. `(in-progress; source and isolated deployment verified)`
-- [ ] **OPS-003** — **P1** — **Now** — Supabase Free, Resend base/free and existing free hosting only; no new recurring charge, automatic paid overage or carbon. Manual encrypted backup restores pass; unattended backup and independent monitoring remain open. `(in-progress; owner cost constraint verified)`
+- [ ] **SEC-003** — **P1** — **Now** — Backend security fixes deployed; corrected build49 native/update acceptance passed. Exposed test-key rotation and final Fable bypass review remain. `(in-progress 2026-10-27; remediation verified, final review pending)`
+- [x] **OPS-003** — **P1** — **Now** — Supabase Free, Resend free/base and Workers Free confirmed; independent alerts and unattended encrypted iCloud backup plus restore verified. Existing free quotas/Mac availability remain operating limits; no paid upgrade or overages. `(cloud-done 2026-10-27; disabled-sales preparation)`
 
 ## Production integration checkpoint — 2026-10-26
 
@@ -49,3 +49,11 @@ This file is the execution source of truth for the Stuff by Rambo storefront and
 ## Free operations completion — 2026-10-27
 
 OPS-003 | P1 | Now | cloud-done: authenticated Workers Free status verified; existing free-plan settings unchanged. Installed launchd backup completed fresh encrypted export/upload and health recording. Fixed transient iCloud failure handling with bounded retry;13 focused tests and independent review passed. Existing cloud-download restore and external failure-notification/recovery evidence retained. Mac availability and free quotas remain documented operational limits. Implementer native operations_readiness; reviewer native release_review; coordinator integration. Policy revision2026-10-13; user reserves Fable security review. Source commit: `11c378df66cd5bb231cc654dfc0653c7dd9cd8ed`.
+
+## Corrected candidate acceptance — 2026-10-27
+
+REL-001 / PY-SEC-001 | P0 | Now | local-done (private release preparation): corrected3.2.29/build49 is signed/notarized/stapled, patched packaged dependencies verified, real production trial and private Sparkle43-to49 installation/relaunch passed with trial access retained. Original installed app, native Keychain, files and preferences restored/readback-verified; testdevices deactivated. Reject47 for nested-entitlement leakage and48 for stale build interpreter. Explicit inside-out signing and exact dependency preflight prevent recurrence.42 signing/release checks and10 focused dependency/build checks passed, with independent source review.
+
+LIC-003 / SEC-002 | P0 | Now | cloud-done (disabled-sales preparation): restricted test payment/refund/durable signed revocation, live proxy/policies/portal and real production trial verified. OPS-003 | P1 | Now | cloud-done: free-plan readback, independent failure alert/recovery and unattended encrypted backup verified. Final sales/app publication remains pending.
+
+SEC-003 | P1 | Now | in-progress: exposed test-key rotation remains unconfirmed; old restricted key still accepted. Fable final bypass/security review has not run. No live key exposure, real-money test payment, paid upgrade, public appcast/tag or sales enablement. Final evidence in commerce/FABLE_FINAL_REVIEW_2026-10-26.md. Native candidate_acceptance implemented, release_review reviewed, coordinator performed artifact/provider/native/update acceptance. Policy revision2026-10-13; Fable remains reserved. Source commit: pending.
