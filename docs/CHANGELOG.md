@@ -83,3 +83,7 @@ SEC-003 | P1 | Now | review-done: Fable job31529244-792f-48d8-959c-ba6218b56e0d,
 REL-001 | P0 | Now | preparation/review complete; public release pending. Candidate49 unchanged; no new build, broad test campaign, sale, public appcast or paid upgrade. App source47c57b1; credential-evidence commit81b31b2. Coordinator owns integration/provider checks; Fable owns independent final review. Policy revision2026-10-13.
 
 Next: PY-SEC-002 | P2 | Next | proposed: consider refresh-response replay hardening that preserves a monotonic signed-time floor, including repeated equal-iat responses and online clock recovery. Requires a separate reviewed change and candidate rebuild; not counted as fixed by the suggested older-iat check alone.
+
+## Public release publication — 2026-10-27
+
+REL-001 | P0 | Now | publication in progress: owner authorized public release and all related commits/pushes. Published the accepted, notarized 3.2.29 build49 installer and verified the public download SHA-256. Publishing signed Python update feed and official download link; sales enablement follows successful storefront deployment. Native Swift lane unchanged. Fable review and free-plan constraints retained. Coordinator implementation; operations_readiness independently checked launch gates. Policy revision2026-10-13.
