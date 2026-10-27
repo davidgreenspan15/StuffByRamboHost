@@ -46,7 +46,7 @@ def terminate_child(child, grace_seconds=45):
         return child.communicate(timeout=5)
 
 
-def command(args, timeout=30):
+def command(args, timeout=30, failure_codes=()):
     child = subprocess.Popen([str(x) for x in args], stdout=subprocess.PIPE,
                              stderr=subprocess.DEVNULL, text=True,
                              start_new_session=True)
@@ -56,21 +56,43 @@ def command(args, timeout=30):
         terminate_child(child)
         raise
     if child.returncode:
+        # Only predeclared operational codes may cross the private helper
+        # boundary. Never log arbitrary stdout, stderr or exception text.
+        try:
+            code = json.loads(output).get('error')
+        except (ValueError, AttributeError):
+            code = None
+        if isinstance(code, str) and code in failure_codes:
+            raise RuntimeError(code)
         raise RuntimeError('backup_subprocess_failed')
     return output
 
 
 def status(path, operation='status'):
-    result = json.loads(command([BASE / 'commerce-icloud-status', operation, path]))
-    if result.get('error') or result.get('uploadError') or result.get('conflict'):
-        raise RuntimeError('icloud_sync_not_healthy')
+    result = json.loads(command([BASE / 'commerce-icloud-status', operation, path],
+                                failure_codes=('icloud_status_unavailable',)))
+    if result.get('conflict'):
+        raise RuntimeError('icloud_conflict_requires_review')
+    if result.get('error'):
+        raise RuntimeError('icloud_status_unavailable')
+    if result.get('uploadError'):
+        raise RuntimeError('icloud_upload_error')
     return result
 
 
 def wait_status(paths, key, timeout=180):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
-        if all(status(path).get(key) is True for path in paths):
+        try:
+            complete = all(status(path).get(key) is True for path in paths)
+        except RuntimeError as error:
+            # iCloud can briefly report an upload error immediately after a
+            # local copy. Confirm recovery within the same bounded wait; a
+            # persistent error or exhausted quota never records success.
+            if str(error) not in ('icloud_upload_error', 'icloud_status_unavailable'):
+                raise
+            complete = False
+        if complete:
             return
         time.sleep(5)
     raise RuntimeError('icloud_confirmation_timeout')
@@ -167,7 +189,10 @@ def run(args):
             if folder.parent != BASE / 'encrypted-backups':
                 raise RuntimeError('backup_source_outside_private_root')
         else:
-            result = json.loads(command([PYTHON, BASE / 'manual-encrypted-backup.py', 'live'], timeout=240))
+            result = json.loads(command([PYTHON, BASE / 'manual-encrypted-backup.py', 'live'], timeout=240,
+                failure_codes=('keychain_read_failed', 'backup_identity_not_available_to_native_helper',
+                               'source_metadata_failed', 'export_permission_denied',
+                               'encrypted_export_failed', 'backup_exceeds_free_storage_cap')))
             folder = Path(result['output'])
             if folder.parent != BASE / 'encrypted-backups':
                 raise RuntimeError('backup_source_outside_private_root')

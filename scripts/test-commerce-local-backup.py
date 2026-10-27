@@ -109,6 +109,39 @@ finally: pathlib.Path(sys.argv[1]).write_text('cleaned')
             backup.command([sys.executable, script, marker], timeout=0.5)
         self.assertEqual(marker.read_text(), 'cleaned')
 
+    def test_private_helper_failure_exposes_only_allowlisted_code(self):
+        for output, expected in [
+            ('{"error":"encrypted_export_failed"}', 'encrypted_export_failed'),
+            ('{"error":"private diagnostic must not escape"}', 'backup_subprocess_failed'),
+            ('invalid private diagnostic', 'backup_subprocess_failed'),
+            ('["private diagnostic"]', 'backup_subprocess_failed'),
+        ]:
+            with self.subTest(output=output):
+                with self.assertRaisesRegex(RuntimeError, '^' + expected + '$'):
+                    backup.command([sys.executable, '-c', 'import sys; print(sys.argv[1]); sys.exit(1)', output],
+                                   failure_codes=('encrypted_export_failed',))
+
+    def test_temporary_icloud_error_waits_for_confirmed_upload(self):
+        with patch.object(backup, 'status', side_effect=[RuntimeError('icloud_upload_error'),
+                    RuntimeError('icloud_status_unavailable'), {'uploaded': True}]) as status, \
+             patch.object(backup.time, 'sleep'):
+            backup.wait_status([self.archive], 'uploaded')
+        self.assertEqual(status.call_count, 3)
+
+    def test_persistent_icloud_error_fails_within_deadline(self):
+        with patch.object(backup, 'status', side_effect=RuntimeError('icloud_upload_error')), \
+             patch.object(backup.time, 'monotonic', side_effect=[0, 0, 181]), \
+             patch.object(backup.time, 'sleep'):
+            with self.assertRaisesRegex(RuntimeError, '^icloud_confirmation_timeout$'):
+                backup.wait_status([self.archive], 'uploaded')
+
+    def test_icloud_conflict_fails_immediately(self):
+        with patch.object(backup, 'status', side_effect=RuntimeError('icloud_conflict_requires_review')), \
+             patch.object(backup.time, 'sleep') as sleep:
+            with self.assertRaisesRegex(RuntimeError, '^icloud_conflict_requires_review$'):
+                backup.wait_status([self.archive], 'uploaded')
+        sleep.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()
