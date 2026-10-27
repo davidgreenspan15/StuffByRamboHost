@@ -1,6 +1,6 @@
 # Commerce validation and release status
 
-Updated October 27, 2026. Production integration and the focused licensing checks below are verified. Sales and candidate public release remain disabled. Fable's final bypass-security review has not run; corrected build49 and private installed-update acceptance passed. Exposed sandbox-key rotation remains unresolved.
+Updated October 27, 2026. Production integration and the focused licensing checks below are verified. Sales and candidate public release remain disabled. Fable's final bypass-security review has not run; corrected build49 and private installed-update acceptance passed. Exposed sandbox-key rotation and restricted replacement configuration are verified complete.
 
 ## Executed source and isolated checks
 
@@ -41,7 +41,7 @@ All original native Keychain records, app files and preferences were restored an
 
 ## Remaining review and publication boundaries
 
-- Exposed sandbox credential cleanup is unconfirmed. The old stored restricted key still returned HTTP 200 on October 27. Rami has asked about completing rotation; the browser credential-change handoff policy applies. Verify replacement configuration and old-key rejection without disclosing values. No live key was exposed.
+- Sandbox credential cleanup completed October27: owner rotated both exposed keys; Dashboard shows both fresh replacements. Old stored restricted key returns401, replacement test-price read returns200, exact native storage readback and isolated test backend replacement passed. Clipboard cleared; no live environment changed. Full-access revocation relies on owner action and Dashboard replacement readback because the superseded value is not retained.
 - Fable has not performed the requested final review for licensing/security bypasses. The [final-review handoff](FABLE_FINAL_REVIEW_2026-10-26.md) identifies completed evidence and the accepted corrected candidate.
 - Installed Sparkle update acceptance passed on the private43-to49 path. No new broad hardware/permission test campaign was performed or added to the review gate.
 - Sales enablement, public candidate appcast/release and final launch approval remain separate. Existing public feed and candidate release state are unchanged. No real-money test transaction, paid upgrade, recurring charge, automatic paid overage or carbon contribution is authorized.
